@@ -1,0 +1,98 @@
+.sofortblau.details-heading
+  %h2= @rentable_item.ad_name
+
+%br
+
+%ul.nav.nav-tabs.nav-justified(role="tablist")
+  - if @rentable_item.images.present?
+    %li{class: @active_tab == 'images' && 'active'}
+      %a(href="#gallery_#{@rentable_item.id}" role='tab' data-toggle='tab') Bilder
+  %li{class: @active_tab == 'location' && 'active'}
+    %a(href="#location_#{@rentable_item.id}" role='tab' data-toggle='tab') Lage
+  %li{class: @active_tab == 'details' && 'active'}
+    %a(href="#details_#{@rentable_item.id}" role='tab' data-toggle='tab') Details
+
+
+.tab-content
+  - if @rentable_item.images.present?
+
+    .tab-pane(id="gallery_#{@rentable_item.id}"){class: @active_tab == 'images' && 'active'}
+      .carousel.slide{"data-ride" => "carousel", :id => "rentable_item_gallery_\#{ @rentable_item.id }"}
+        %ol.carousel-indicators
+          - @rentable_item.images.limit(10).each.with_index do |image, i|
+            %li{:class => i == 0 && 'active', "data-slide-to" => i, "data-target" => "#rentable_item_gallery_#{@rentable_item.id}"}
+        .carousel-inner
+          - @rentable_item.images.limit(10).each.with_index do |image, i|
+            %div{:class => "item #{'active' if i == 0}"}
+              %img{:alt => image.title, :src => image.image.url(:large) }/
+        %a.left.carousel-control{"data-slide" => "prev", :href => "#rentable_item_gallery_#{@rentable_item.id}", :role => "button"}
+          %span.glyphicon.glyphicon-chevron-left
+        %a.right.carousel-control{"data-slide" => "next", :href => "#rentable_item_gallery_#{@rentable_item.id}", :role => "button"}
+          %span.glyphicon.glyphicon-chevron-right
+
+  .tab-pane(id="location_#{@rentable_item.id}"){class: @active_tab == 'location' && 'active'}
+    = link_to map_path(@rentable_item), target: '_blank' do
+      %img{ src: static_map(@rentable_item) }
+
+  .tab-pane.details(id="details_#{@rentable_item.id}"){class: @active_tab == 'details' && 'active'}
+    .description
+      = @rentable_item.description.html_safe
+    %table.table.details
+      %tbody
+        %tr
+          %td Preis/Monat
+          %td= number_to_currency(@rentable_item.price)
+          %td Größe
+          %td
+            = @rentable_item.size.to_i
+            m&sup2;
+
+        %tr
+          %td
+            Vermieter
+          %td
+            %a{ href: @rentable_item.account.website, target: '_blank'}
+              = @rentable_item.account.public_name
+          %td Kaution
+          %td
+            = number_to_currency @rentable_item.deposit
+
+
+        - @rentable_item.item_type_attributes.each_slice(2) do |(first, second)|
+          %tr
+
+            %td
+              = first.value
+            %td
+              %span.glyphicon.glyphicon-ok(style='color: #39A5AF;')
+            - if second
+              %td
+                = second.value
+              %td
+                %span.glyphicon.glyphicon-ok(style='color: #39A5AF;')
+            - else
+              %td
+              %td
+
+
+    #bookNow
+      = form_for(:request, url: requests_path, html: { role: 'form', class: 'form-inline' }) do |form|
+        = form.hidden_field :rentable_item_id, value: @rentable_item.id
+
+        .form-group
+          .input-group
+            .input-group-addon Von
+            = form.select(:start_date, dates_localized_for_select(@rentable_item.start_dates), {}, class: 'form-control')
+
+        .form-group
+          .input-group
+            - localized_end_dates = (@rentable_item.end_dates.map { |date| [I18n.l(date), date] })
+
+            .input-group-addon Bis
+            = form.select(:end_date, localized_end_dates, {}, class: 'form-control')
+
+        - if @rentable_item.account.only_students?
+          = form.submit('Anfragen', class: 'btn', data: {confirm: 'Bitte bestätige, dass du Student bist.'})
+        - else
+          = form.submit 'Anfragen', class: 'btn'
+

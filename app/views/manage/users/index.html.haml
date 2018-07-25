@@ -1,0 +1,11 @@
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Telefonnummer
+
+  %body
+    - @manage_users.to_a.sort_by(&:lastname).each do |manage_user|
+      %tr
+        %td= manage_user.fullname
+        %td= manage_user.phone

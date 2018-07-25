@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <p>
+    Hallo <%= @contract.user.firstname %>,
+  </p>
+
+  <p>
+    der von dir unterschriebene Vertrag ist soeben von Seiten der Hausverwaltung <%= @contract.account.public_name %> unterschrieben auf deinem Account hinterlegt worden. Selbstverständlich kannst Du ein vollständig unterzeichnetes Exemplar dem Anhang entnehmen.
+  </p>
+
+  <p>
+  Bitte nimm nun die Überweisung der Kaution auf folgendes Konto vor:
+  </p>
+
+  <p>
+  Inhaber: <%= @contract.account.deposits_bank_account_owner %>
+  </p>
+  <p>
+  IBAN: <%= @contract.account.deposits_iban %>
+  </p>
+  <p>
+  BIC: <%= @contract.account.deposits_bic %>
+  </p>
+  <p>
+  <p>
+  Bei: <%= @contract.account.deposits_bank_name %>
+  </p>
+
+  <p>
+  Verwendungszweck: Kaution für Vertrags- Nr. <%= @contract.id %> Kundennummer: <%= @contract.user.id %> SW-ID: <%= @contract.rentable_item.id %> Zimmer-Nr.: <%= @contract.rentable_item.number %>
+  </p>
+
+  <p>
+  Bitte bedenke, dass sofern die Kaution nicht innerhalb von 6 Tagen auf dem Konto des Hauseigentümers eingeht, das Zimmer von uns wieder als verfügbar ins Netz gestellt wird.
+  </p>
+</body>
+</html>

@@ -1,0 +1,25 @@
+= form_for [@contract, @receivable], html: { class: "form form-horizontal" } do |f|
+
+  = f.hidden_field(:billable_type, value:  'BillingItem')
+
+  - if !@receivable.billable.nil? || @receivable.new_record?
+    .form-group
+      = f.label(:billable_id, 'Artikel')
+      = f.select(:billable_id, current_account.billing_items.map { |bi| [bi.name, bi.id]}, {}, { class: 'form-control' })
+
+  - unless @receivable.new_record?
+    .form-group
+      = f.label(:price, 'Betrag')
+      = f.text_field(:price, class: 'form-control', value: number_to_currency(@receivable.price, delimiter: ''))
+
+  .form-group
+    = f.label(:due_since, 'Fällig am')
+    = f.date_select(:due_since, class: 'form-control')
+
+  - if @receivable.failed_on.present?
+    .form-group
+      = f.label(:failed_on, 'Fehlgeschlagen am')
+      = f.date_select(:failed_on, class: 'form-control')
+
+
+  = f.submit 'Speichern',class: 'btn btn-primary'

@@ -1,0 +1,57 @@
+%h2#relocations
+  Umzüge für
+  .btn-group
+    %button.btn.btn-inverse.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
+      = t('date.month_names')[@month]
+      %span.caret
+    %ul.dropdown-menu{:role => "menu"}
+      - t('date.month_names')[1..-1].each.with_index do |month_name, i|
+        %li
+          %a(href="#{relocations_contracts_path}?month=#{i+1}&year=#{@year}")= month_name
+  .btn-group
+    %button.btn.btn-inverse.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :type => "button"}
+      = @year
+      %span.caret
+    %ul.dropdown-menu{:role => "menu"}
+      - (@min_year..@max_year).each do |year|
+        %li
+          %a(href="#{relocations_contracts_path}?month=#{@month}&year=#{year}")= year
+
+
+%h3 Mieter zieht aus
+%table.table
+  %thead
+    %tr
+      %th Objekt
+      %th Einzugsdatum
+      %th Auszugsdatum
+      %th Name
+  %tbody
+    - @relocations_outbound.each do |contract|
+      %tr
+        %th{:scope => "row"}= contract.rentable_item.number
+        %td= I18n.l contract.start_date
+        %td= I18n.l contract.end_date
+        %td
+          %a.show-contract-details(href="#" data-contract-id="#{contract.id}")= contract.user.fullname
+
+%h3 Mieter zieht ein
+%table.table
+  %thead
+    %tr
+      %th Objekt
+      %th Einzugsdatum
+      %th Auszugsdatum
+      %th Name
+  %tbody
+    - @relocations_inbound.each do |contract|
+      %tr
+        %th{:scope => "row"}= contract.rentable_item.number
+        %td= I18n.l contract.start_date
+        %td= I18n.l contract.end_date
+        %td
+          %a.show-contract-details(href="#" data-contract-id="#{contract.id}")= contract.user.fullname
+
+.modal.fade{"id" => "contractModal", "tabindex" =>"-1", "role" =>"dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>"true" }
+  .modal-dialog
+    .modal-content

@@ -1,0 +1,40 @@
+.pull-right
+  %p
+    = link_to 'Blankovertrag', download_contract_path(@contract.id, document_type: 'blank_contract'), class: 'btn'
+  %p
+    = link_to 'Unterschriebener Vertrag', download_contract_path(@contract.id, document_type: 'signed_contract'), class: 'btn'
+  %p
+    = link_to 'Ausweis', download_contract_path(@contract.id, document_type: 'passport'), class: 'btn'
+
+= form_for @contract, format: :json, remote: true, multipart: true do |form|
+  .form-group.start_date
+    = form.label :start_date, 'Von'
+    = form.date_select :start_date, class: 'form-control'
+  .form-group.end_date
+    = form.label :end_date, 'Bis'
+    = form.date_select :end_date, class: 'form-control'
+  .form-group
+    = form.label :rentable_item_id, 'Umziehen'
+    = form.select :rentable_item_id, @movable_to.map { |ri| [ri.number, ri.id] }
+  - current_account.billing_items.contract_monthly.each do |bi|
+    .checkbox
+      %label
+        = check_box_tag 'contract[billing_item_ids]', bi.id, @contract.billing_item_ids.include?(bi.id)
+
+        = bi.name
+        &middot;
+        = number_to_currency bi.price
+        monatlich
+  = form.fields_for @contract.attachments.build do |nform|
+    .form-group
+      %label
+        Dokumente-Upload
+      .row
+        .col-lg-6
+          = nform.select :document_type, [['Unterschriebener Vertrag', :signed_contract], ['Ausweis', :passport]], {}, class: 'form-control'
+        .col-lg-6
+          = nform.file_field :document, class: 'form-control'
+
+  = form.submit 'Speichern', class: 'btn'
+
+  %span.glyphicon.glyphicon-refresh.refresh-spinner

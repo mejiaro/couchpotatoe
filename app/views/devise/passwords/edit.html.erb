@@ -1,0 +1,27 @@
+<% provide(:container_css_class, 'related-account') %>
+
+
+<div class="row">
+  <div class="col-lg-4 col-lg-offset-4">
+    <h2>Passwort zurücksetzen</h2>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: 'form' }) do |f| %>
+      <%= devise_error_messages! %>
+
+      <%= f.hidden_field :reset_password_token %>
+
+      <div class="form-group">
+        <%= f.label :password, "Neues Passwort" %>
+        <%= f.password_field :password, autofocus: true, autocomplete: "off", class: 'form-control', placeholder: "Neues Passwort" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation, "Neues Passwort bestätigen." %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: 'Passwort nochmal eingeben' %>
+      </div>
+
+
+      <%= f.submit "Speichern", class: 'btn' %>
+    <% end %>
+  </div>
+</div>

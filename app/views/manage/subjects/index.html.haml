@@ -1,0 +1,45 @@
+%style
+  body {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  height: auto;
+  }
+
+.row.subjects
+  .conversation-wrap.col-lg-3
+    = form_tag subjects_path do
+      %button.btn.new-message
+        %i.fa.fa-plus
+        Neue Konversation beginnen
+
+      %input.form-control(name='title' placeholder="Betreff" )
+      %select.chosen.form-control(name='user_id' style='margin-bottom: 10px;')
+        - current_account.users.each do |user|
+          %option{ value: user.id }= user.fullname
+
+    .cnvs-wrap.container-fluid(style='max-height: 300px;')
+      - @subjects.each do |subject|
+        .media.conversation(class="#{ 'active' if subject == @subject }")
+          %a.pull-left{:href => "", id: subject.id}
+            %img.media-object{:src => user_image(subject.user), :style => "width: 50px; height: 50px;"}/
+          %a.media-body.conversation-link(href='#' data-id="#{subject.id}")
+            %h5.media-heading= subject.user.present? ? subject.user.fullname : ''
+            %small
+              = "#{ subject.title  }"
+          = link_to subject_path(subject), method: :delete, 'data-remote' => true, 'data-confirm' => 'Wirklich?', class: 'destroy' do
+            %span.glyphicon.glyphicon-remove
+
+
+
+  .message-wrap.col-lg-9
+    -  if @subject
+      .msg-wrap(style='max-height: 330px;')
+        = render 'subjects/messages', subject: @subject
+      .send-wrap
+        .form-group
+          %textarea.form-control.send-message{:placeholder => "Deine Nachricht...", :rows => "3"}
+        %a.send-message.btn{:href => "#"}
+          %i.fa.fa-plus
+          Abschicken
+    - else
+      %h2(style='text-align: center;') Hier können Sie mit Ihren Mietern und Ihrem Personal kommunizieren.

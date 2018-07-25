@@ -1,0 +1,34 @@
+%accordion(close-others="oneAtATime")
+  %accordion-group(heading="{{ rentableContainer.name }}" ng-repeat="rentableContainer in rentableContainers")
+    .rentableObjects(ng-repeat="rentableObject in rentableObjects" ng-show='rentableObject.containerId == rentableContainer.id' ng-controller='rentableObjectCtrl')
+      %button.btn.btn-default(ng-click='open()')
+        {{ rentableObject.name }}
+
+%script(id="editRentableObject.html" type="text/ng-template")
+  .modal-header
+    %h3.modal-title
+      {{rentableObject.name}}
+  .modal-body
+    %form{:role => "form"}
+      .form-group
+        %label{:for => "name"} Name
+        .input-group
+          %input#rent.form-control(type='text'  ng-model='rentableObject.name')
+      .form-group
+        %label{:for => "rent"} Miete
+        .input-group
+          %span.input-group-addon €
+          %input#rent.form-control(type='number' step='0.01' ng-model='rentableObject.rent')
+      .form-group
+        %label{:for => "size"} Größe
+        .input-group
+          %span.input-group-addon m²
+          %input#size.form-control(type='number' ng-model='rentableObject.size')
+
+      .checkbox
+        %label
+          %input(type="checkbox") Schon möbliert?
+
+  .modal-footer
+    %button.btn.btn-primary{"ng-click" => "previous()"} Zurück
+    %button.btn.btn-primary{"ng-click" => "next()"} Weiter

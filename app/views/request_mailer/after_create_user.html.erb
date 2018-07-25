@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<h1>Bestätigung deiner Anfrage für <%= @request.rentable_item.number %></h1>
+
+<p>Hallo <%= @request.user.fullname %>,</p>
+
+<p>
+Deine Anfrage wird zunächst von Seiten der Hausverwaltung <%= @request.account.public_name %> geprüft.
+Du erhältst in jedem Fall von der Verwaltung in den nächsten 24 Stunden eine Antwort.
+Sofern die Prüfung ergeben hat, dass du ein Kandidat bist, den die Verwaltung oder das Projekt sucht, erhältst du eine weitere E-Mail von uns.
+Du kannst dann für dein angefragtes Zimmer einen Vertragsentwurf generieren.
+Dafür wird die Eingabe weiterer Daten notwendig sein.
+In der dir zugesandten E-Mail wird dann der Link zur Vertragsdateneingabe vorhanden sein.
+</p>
+
+<p>
+<%= link_to 'Du kannst deine Anfrage jederzeit hier einsehen.', request_url(@request) %>
+</p>
+
+<p>
+Wir wünschen dir viel Glück und eine schöne Zeit in <%= @request.rentable_item.city %> wünscht,
+</p>
+<p>
+Das Team von <%= @request.account.public_name %>
+</p>
+</body>
+</html>

@@ -1,0 +1,30 @@
+.container{ style: 'margin-top: 100px;' }
+  = form_tag(admin_update_featured_path, html: { role: 'form', class: 'form-inline' }) do
+
+    .row.masonry_container
+      - @items.sort_by { |i| rand(100) }.each  do |item|
+        %div.masonry_item{ class: "col-sm-6 col-md-4" }
+          .thumbnail
+
+            .modal.fade{ "id" => "rentable_item_modal_#{ item.id }", "tabindex" =>"-1", "role" =>"dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>"true" }
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    %button{ type: "button", class: "close", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+                    %h4.modal-title Modal title
+
+                  .modal-body
+                    .te
+                  .modal-footer
+
+
+            %a{ "data-toggle" => "modal", href: gallery_rentable_item_path(item.id), "data-target" => "#rentable_item_modal_#{ item.id }" }
+              %img{ src: item.images.first.image.url(:medium), alt: 'Wohnung', style: "width:320px; height: auto;" }
+
+
+            %p
+            .form-group
+              = label_tag "feature[#{item.id}]", 'Featuren'
+              = check_box_tag "feature[#{item.id}]", true, item.featured?
+    %button{ type: 'submit', class: "btn btn-success" } Speichern
+

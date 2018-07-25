@@ -1,0 +1,165 @@
+.row.edit-account
+  .col-lg-4.col-lg-offset-1
+    %h2 AutoSign
+    - if current_user.signature_data.present?
+      #autosignDisplay.sigPad{ "data-signature_data" => current_user.signature_data }
+        .sig.sigWrapper
+          %canvas.pad{:height => "90", :width => "250"}
+
+    = link_to "AutoSign Unterschrift", edit_signature_user_path(current_user), class: 'btn', style: 'width: 100%; margin-bottom: 50px;'
+
+    = form_for current_account, html: { role: 'form' } do |form|
+      .form-group
+        %label Öffentlicher Name
+        = form.text_field :public_name, class: 'form-control'
+      .form-group
+        %label couchpotatoe-Subdomain
+        = form.text_field :domain, class: 'form-control'
+      .form-group
+        %label Vermieter-Website
+        = form.text_field :website, class: 'form-control'
+      %button.btn.btn-primary Speichern
+
+  .col-lg-4.col-lg-offset-1
+    %h2 Vermieter-Daten
+
+    = form_for current_account, html: { role: 'form' } do |form|
+      .form-group
+        %label Vermieter-Name
+        = form.text_field :company, class: 'form-control'
+      .form-group
+        %label Straße und Hausnummer
+        = form.text_field :company_address, class: 'form-control'
+      .form-group
+        %label PLZ
+        = form.text_field :company_zip, class: 'form-control'
+      .form-group
+        %label Stadt
+        = form.text_field :company_city, class: 'form-control'
+      .form-group
+        %label Land
+        = form.text_field :company_country, class: 'form-control'
+      %button.btn.btn-primary Speichern
+%br
+%br
+
+%br
+%br
+
+
+.row
+
+  .col-lg-4.col-lg-offset-1
+    %h2 Bankdaten (Mietzahlungen)
+    = form_for current_account, html: { role: 'form' } do |form|
+      .form-group
+        %label Kreditor-ID
+        = form.text_field :creditor_id, class: 'form-control'
+      .form-group
+        %label Kontoinhaber
+        = form.text_field :bank_account_owner, class: 'form-control'
+      .form-group
+        %label Name der Bank
+        = form.text_field :bank_name, class: 'form-control'
+      .form-group
+        %label IBAN
+        = form.text_field :iban, class: 'form-control'
+      .form-group
+        %label BIC
+        = form.text_field :bic, class: 'form-control'
+      %button.btn.btn-primary Speichern
+
+  .col-lg-4.col-lg-offset-1
+    %h2 Bankdaten (Kautionszahlung)
+    = form_for current_account, html: { role: 'form' } do |form|
+      .form-group
+        %label Kontoinhaber
+        = form.text_field :deposits_bank_account_owner, class: 'form-control'
+      .form-group
+        %label Name der Bank
+        = form.text_field :deposits_bank_name, class: 'form-control'
+      .form-group
+        %label IBAN
+        = form.text_field :deposits_iban, class: 'form-control'
+      .form-group
+        %label BIC
+        = form.text_field :deposits_bic, class: 'form-control'
+      %button.btn.btn-primary Speichern
+
+
+.row
+  .col-lg-4.col-lg-offset-1
+    %h2 Ihre Corporate Identity
+    = form_for current_account, html: { role: 'form' } do |form|
+      .form-group
+        %label Primärer Farbton
+        = form.text_field :ci_dark_color, class: 'form-control'
+      .form-group
+        %label Sekundärer Farbton
+        = form.text_field :ci_bright_color, class: 'form-control'
+      = form.fields_for current_account.attachments.build do |nform|
+        .form-group
+          %label
+            Firmenlogo/Projektlogo
+          = nform.hidden_field :document_type, value: 'image'
+          = nform.file_field :document, class: 'form-control'
+
+      %button.btn.btn-primary Speichern
+
+  .col-lg-4.col-lg-offset-1
+    %h2 Vorlagen für Dokumente
+    = form_for current_account, html: { role: 'form', multipart: true } do |form|
+      .form-group
+        %label
+          Vertragsvorlage
+          = link_to 'Download', contract_template_account_path
+        = form.file_field :contract_template, class: 'form-control'
+      .form-group
+        %label
+          Abrechnungsvorlage
+          = link_to 'Download', bill_template_account_path
+        = form.file_field :bill_template, class: 'form-control'
+
+      %button.btn.btn-primary Speichern
+
+
+.row
+  .col-lg-4.col-lg-offset-1
+    %h2 EBICS
+    = form_for current_account, html: { role: 'form' } do |form|
+      .form-group
+        %label EBICS Host-ID
+        = form.text_field :ebics_host_id, class: 'form-control'
+      .form-group
+        %label EBICS Teilnehmer-ID
+        = form.text_field :ebics_user_id, class: 'form-control'
+      .form-group
+        %label EBICS Kunden-ID
+        = form.text_field :ebics_partner_id, class: 'form-control'
+      .form-group
+        %label EBICS URL
+        = form.text_field :ebics_url, class: 'form-control'
+      %button.btn.btn-primary Speichern
+      - if current_account.ebics_ini && current_account.ebics_hia
+        = link_to "Initialisierungs-Brief", ebics_letter_account_path(current_account), class: 'btn'
+
+  .col-lg-4.col-lg-offset-1
+    %h2 Sonstiges
+    = form_for current_account, html: { role: 'form', class: 'form' } do |form|
+      .checkbox
+        %label
+          = form.check_box :paypal_deposit
+          PayPal-Kautionszahlung
+      .checkbox
+        %label
+          = form.check_box :only_students
+          Nur Studenten
+      .checkbox
+        %label
+          = form.check_box :only_first_of_month
+          Nur zum 1. des Monats
+      .checkbox
+        %label
+          = form.check_box :at_least_one_year_rental_period
+          Mindestmietdauer: 1 Jahre
+      %button.btn.btn-primary Speichern

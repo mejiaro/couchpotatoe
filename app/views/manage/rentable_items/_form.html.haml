@@ -1,0 +1,39 @@
+= form_for item, remote: true do |f|
+  -#.form-group
+  -#  = f.select :type, ['Wohnung', 'Zimmer', 'Haus'], {}, class: 'form-control'
+  .form-group
+    = f.label :number, 'Anzeigename'
+    = f.text_field :number, class: 'form-control'
+  .form-group
+    = f.label :description, 'Beschreibung'
+    = f.hidden_field :description, id: 'description'
+    %trix-editor{input: 'description'}
+
+  .form-group
+    = f.label :price, 'Miete'
+    .input-group
+      = f.number_field :price, class: 'form-control'
+      .input-group-addon EUR
+
+  .form-group
+    = f.label :deposit, 'Kaution'
+    .input-group
+      = f.number_field :deposit, class: 'form-control'
+      .input-group-addon EUR
+  .form-group
+    = f.label :size, 'Größe'
+
+    .input-group
+      = f.number_field :size, class: 'form-control'
+
+      .input-group-addon m&sup2;
+  .form-group
+    = f.label :blocked, 'Im Verkauf?'
+    = f.check_box :blocked, { checked: !@rentable_item.blocked },  '0', '1'
+
+  .form-group
+    = f.label :earliest_available, 'Verfügbar ab'
+    = f.date_select :earliest_available, class: 'form-control'
+
+  = f.submit 'Speichern', class: 'btn submit'
+  = link_to 'Löschen', rentable_item_path(item.id), method: :delete, data: { remote: true, confirm: 'Wirklich löschen?' }, class: 'btn destroy'

@@ -1,0 +1,467 @@
+img.account_logo {
+  width: 38.2%;
+  height: auto;
+
+  left: 30.6%;
+  top: 50px !important;
+
+  z-index: -10;
+
+  position: fixed;
+}
+
+trix-editor {
+  background: white;
+  min-height: 150px;
+}
+#frontend {
+  #rentable-item-modal {
+
+    .modal-content {
+      background-color: fade(@bright-color, 90%);
+
+      .nav li.active a {
+        background-color: @bright-color;
+      }
+      .nav li a:hover {
+        background-color: @bright-color;
+      }
+
+      .tab-pane.active {
+        background-color: @bright-color !important;
+      }
+    }
+
+    .details-heading {
+      text-align: center;
+      padding: 15px;
+
+      p { font-style: italic; font-size: 1.0em }
+
+      h2 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      margin-top: 0 !important;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    li a {
+      outline: none !important;
+    }
+
+    .tab-pane {
+      &.details {
+        padding: 20px;
+
+        .description {
+          margin-bottom: 20px;
+        }
+      }
+
+      #bookNow {
+        text-align: center;
+      }
+
+      &.active {
+        background-color: @bright-color;
+      }
+    }
+  }
+}
+
+.masonry_item .thumbnail {
+  background-color: fade(@bright-color, 90%);
+}
+
+
+.ui-menu {
+  -moz-box-shadow:   1px 1px 5px #888;
+  -webkit-box-shadow:   1px 1px 5px #888;
+  box-shadow:   1px 1px 5px #888;
+
+  opacity: 0.7;
+  width: 250px !important;
+  z-index: 800 !important;
+
+  padding-left: 0;
+
+  border: 1px solid @dark-color;
+
+  li {
+    cursor: pointer;
+
+    list-style: none;
+    text-align: center;
+    font-size: 1.4em;
+    padding: 20px;
+    background-color: @bright-color;
+    color: @dark-color;
+    border-bottom: 0.5px solid @dark-color;
+
+    &:last-child { border-bottom: none; }
+
+    &:hover {
+      color: @bright-color;
+      background-color: @dark-color;
+    }
+  }
+}
+
+.remove-filter-tag {
+  &:hover { text-decoration: line-through; }
+}
+
+.thumbnail {
+  border-radius: 5px;
+  padding: 15px;
+  width: 100%;
+  -moz-box-shadow: 1px 1px 5px #888;
+  -webkit-box-shadow: 1px 1px 5px #888;
+  box-shadow: 1px 1px 5px #888;
+
+  img {
+
+    -moz-box-shadow: 3px 3px 5px #888;
+    -webkit-box-shadow: 3px 3px 5px #888;
+    box-shadow: 3px 3px 5px #888;
+
+    width: 100%;
+    height: auto;
+
+    margin-bottom: 5px;
+
+    background-color: fade(@bright-color, 100%);
+  }
+
+  .caption {
+    padding: 0;
+    margin: 0;
+    font-size: 0.85em;
+    text-align: center;
+  }
+
+  table {
+    background-color: lighten(@bright-color, 20%);
+    -moz-box-shadow: inset 1px 1px 5px #888;
+    -webkit-box-shadow: inset 1px 1px 5px #888;
+    box-shadow: inset 1px 1px 5px #888;
+    text-align: center;
+    color: #888;
+
+    margin-bottom: 5px !important;
+    p { margin-bottom: 0 !important; }
+//    text-align: center;
+    th {
+      padding-left: 30px !important;
+      font-size: 1.0em;
+      font-weight: lighter;
+    }
+
+    tr:first-child th {
+      border-top: none !important;
+    }
+
+  }
+
+  form {
+    color: fade(@dark-color, 78%);
+    padding: 4px;
+
+    a {
+      line-height: 2.3em;
+    }
+  }
+
+  .btn.booknow-btn {
+    width: 100%;
+    background-color: @dark-color;
+    border-color: @bright-color;
+
+    -moz-box-shadow:   1px 1px 5px #888;
+    -webkit-box-shadow:   1px 1px 5px #888;
+    box-shadow:   1px 1px 5px #888;
+
+    &:hover {
+      background-color: fade(@dark-color, 76%);
+    }
+  }
+
+  .fb-like {
+    margin-left: 0;
+    margin-top: 7px;
+  }
+
+
+
+}
+
+.rentable-item {
+  width: 100%;
+}
+
+.image-list-item {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.masonry_container {
+  opacity: 0;
+}
+
+.col-lg-1 {
+  padding-left: 0;
+
+}
+
+#filter-tags {
+  padding: 5px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+#branded #filter-tags {
+  margin-top: 50px;
+}
+
+#ListingsNavigation {
+  z-index: 100;
+  height: auto;
+  width: 70px;
+
+  -moz-box-shadow:   1px 1px 5px #888;
+  -webkit-box-shadow:   1px 1px 5px #888;
+  box-shadow:   1px 1px 5px #888;
+
+  li, li.active a, a:hover {
+    background: @dark-color;
+    color: @bright-color;
+  }
+
+  #rentable-items-search {
+    position: relative;
+    z-index: 1000;
+  }
+
+  #query-rentable-items-search {
+    z-index: 1010;
+
+    display: none;
+    position: absolute;
+
+    font-size: 1.5em;
+
+    text-align: center;
+
+    width: 300px;
+    height: 50px;
+
+    top: -5px;
+    left: -50px;
+
+    padding: 5px;
+
+    border-radius: 30px;
+    border: 2px solid @bright-color;
+
+    background-color: @dark-color;
+    color: @bright-color !important;
+
+    -moz-box-shadow:   1px 1px 5px #888;
+    -webkit-box-shadow:   1px 1px 5px #888;
+    box-shadow:   1px 1px 5px #888;
+
+    opacity: 0.8;
+
+    outline: none;
+  }
+
+  &> li  {
+    margin: 0px;
+    height: 100px;
+    line-height: 100px;
+
+    a {
+      height: 100%;
+      margin: 0px;
+      border-radius: 0px;
+      padding: 0;
+      text-align: center;
+      background: @bright-color;
+      border-bottom: 1px solid rgba(187, 187, 187, 0.71);
+    }
+
+    &.active a {
+      background: @bright-color;
+      -moz-box-shadow:  inset 2px 2px 10px #888;
+      -webkit-box-shadow: inset  2px 2px 10px #888;
+      box-shadow:  inset 2px 2px 10px #888;
+      color: gray;
+
+    }
+  }
+
+  li.dropup:hover > ul.dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-menu {
+    & > li > a {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    margin: 0;
+    bottom: 50%;
+    left: 80%;
+    padding: 0;
+  }
+}
+
+@media(min-width: 500px) {
+  .masonry_container {
+    margin-left: -30px;
+  }
+}
+
+.backend {
+  .modal .rentable-item {
+    border: none !important;
+
+    .tab-content {
+      padding: 0 !important;
+      height: auto;
+      overflow: initial;
+    }
+
+    .tab-pane {
+      padding: 30px;
+    }
+  }
+
+  #newRentableItem .modal-content {
+    padding: 30px;
+  }
+
+  .rentable-item {
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+
+    .nav li a {
+      background-color: @bright-color;
+      color: @dark-color;
+
+      border: none !important;
+      border-right: 1px solid lighten(#888,30);
+      &:hover { border-bottom: none !important; }
+    }
+
+    .nav li.active a {
+      background-color: @dark-color;
+      color: @bright-color;
+    }
+
+    .tab-pane.active {
+      background-color: @dark-color;
+      color: @bright-color;
+      padding: 15px;
+      margin: 0;
+      min-height: 100%;
+    }
+
+    .success {
+      -webkit-animation-name: flashColor;
+      -moz-animation-name: flashColor;
+      -o-animation-name: flashColor;
+      animation-name: flashColor;
+
+      -webkit-animation-duration: 1s;
+      -moz-animation-duration: 1s;
+      -o-animation-duration: 1s;
+      animation-duration: 1s;
+
+      -webkit-animation-timing-function: ease-out;
+      -moz-animation-timing-function: ease-out;
+      -o-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+    }
+
+
+    @keyframes flashColor {
+      0% { background-color: @dark-color; }
+      50% { background-color: fade(green,100); }
+      100% { background-color: @dark-color; }
+    }
+
+    @-webkit-keyframes flashColor {
+      0% { background-color: @dark-color; }
+      50% { background-color: fade(green,100); }
+      100% { background-color: @dark-color; }
+    }
+
+
+
+    .images {
+      .btn {
+        width: 100% !important;
+        margin-bottom: 20px;
+      }
+
+      .refresh-spinner {
+        font-size: 1.5em;
+        text-align: center;
+        display: none;
+
+        -webkit-animation:spin 1s linear infinite;
+        -moz-animation:spin 1s linear infinite;
+        animation:spin 1s linear infinite;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        margin-top: 10px;
+
+        img.mini {
+          width: 60px;
+          height: 60px;
+        }
+        .image-mini-placeholder {
+          width: 60px;
+          height: 60px;
+          background-color: @bright-color;
+        }
+
+        li {
+          a { float: left; color: @bright-color }
+          width: 60px;
+        }
+      }
+    }
+
+
+    .tab-content {
+      height: 350px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 10px;
+      background-color: @bright-color;
+      color: green;
+    }
+
+    .btn.destroy {
+      background-color: @bright-color;
+      color: red;
+    }
+
+  }
+}

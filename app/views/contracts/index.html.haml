@@ -1,0 +1,31 @@
+- provide(:container_css_class, current_account && 'related-account')
+
+- if @contracts.any?
+  - model_class = Contract
+  %table.table
+    %thead
+      %tr
+        %th= model_class.human_attribute_name(:rentable_item_id)
+        %th= model_class.human_attribute_name(:price_in_cents)
+        %th= model_class.human_attribute_name(:deposit_in_cents)
+        %th= model_class.human_attribute_name(:extras_in_cents)
+        %th= model_class.human_attribute_name(:start_date)
+        %th= model_class.human_attribute_name(:end_date)
+        %th= model_class.human_attribute_name(:account_id)
+        %th= model_class.human_attribute_name(:signed_contract)
+        %th= model_class.human_attribute_name(:created_at)
+    %tbody
+      - @contracts.each do |contract|
+        %tr
+          %td= link_to contract.rentable_item.number, rentable_items_path(item: contract.rentable_item.id)
+          %td= number_to_currency contract.rentable_item.price
+          %td= number_to_currency contract.rentable_item.deposit
+          %td= contract.billing_items.contract_monthly.map { |bi| "#{bi.name}: #{number_to_currency bi.price}" }.join(", ")
+          %td= I18n.l contract.start_date
+          %td= I18n.l contract.end_date
+          %td= Account.find(contract.account_id || contract.rentable_item.account_id).public_name
+          %td= link_to "Unterschriebener Vertrag", download_contract_path(contract.id, document_type: 'signed_contract')
+          %td= distance_of_time_in_words_to_now contract.created_at
+
+- else
+  %h4(style='text-align: center;') Du hast noch keine Verträge abgeschlossen.

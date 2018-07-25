@@ -1,0 +1,24 @@
+%footer(style='margin-top: 100px;')
+  - if current_account
+    %p
+    &copy;
+    = current_account.public_name
+    - if current_account.company.present?
+      &middot;
+      = current_account.company
+    %p{class:"pull-right"}
+      - if is_manage?
+        %a{ href:"/contracts.csv"} CSV-Export
+
+  - else
+    .fb-like-box{"data-colorscheme" => "light", "data-header" => "false", "data-href" => "https://www.facebook.com/couchpotatoecom", "data-show-border" => "false", "data-show-faces" => "false", "data-stream" => "false"}
+    %p
+      &copy; couchpotatoe &middot;
+      %a{href: landing_pages_imprint_path }
+        Impressum
+      &middot;
+      %a{href: new_account_path }
+        Geschäftspartner
+      &middot;
+      %a{href:"mailto:support@couchpotatoe.com"}
+        Support

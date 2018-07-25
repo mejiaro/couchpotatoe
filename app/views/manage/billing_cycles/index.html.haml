@@ -1,0 +1,79 @@
+%style
+  body {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  overflow-x: hidden;
+  height: auto;
+  }
+
+- content_for(:javascript) do
+  = javascript_include_tag('jquery-sortable')
+
+#paid-receivables(style='display: none;'){ "data-values" => paid_receivables(@billing_cycles) }
+#new-receivables(style='display: none;'){ "data-values" => new_receivables(@billing_cycles) }
+
+#financeDashboard(data-selected-month="#{ @billing_cycle && @billing_cycle.month }")
+  .row
+    .col-md-1
+      %ul.nav.nav-pills.nav-stacked#FinanceNavigation
+        %li#search-receivables
+          %a(href='#' id='toggle-search-receivables')
+            %span.glyphicon.glyphicon-search
+          %input(id='input-search-receivables' type='text')
+
+        - if current_account.billing_cycles.any?
+          %li.dropup
+            %a(href='#' id='year' class='dropdown-toggle' data-toggle='dropdown' data-year="#{params[:year] || Date.today.year}")
+              = params[:year] || Date.today.year
+            %ul.container-item-filter.dropdown-menu(role='menu')
+              - current_account.billing_cycles.map(&:year).uniq.each do |year|
+                %li
+                  = link_to year, billing_cycles_path(year: year)
+
+
+    .col-md-11
+      - if current_account.billing_cycles.blank?
+        %h2(style='text-align: center;') Keine Forderungen vorhanden
+        %p(style='text-align: center;') Sobald Ihre ersten Mieten eingezogen werden müssen, können Sie von hier aus alles kontrollieren.
+      - else
+        #chart
+
+  - unless current_account.billing_cycles.blank?
+
+    .row#ReceivableStateEditor
+      .col-md-4
+        %h3 Überweisungen
+        %ol#new.receivables(data-state='new' data-type='credit-transfer')
+          - @billing_cycle.receivables.bank_transfer.paid(false).each do |receivable|
+            = render 'receivable', receivable: receivable
+
+
+      .col-md-4
+        %h3
+          Lastschriften
+          %span.pull-right#sepa-export
+            = link_to all_paid_billing_cycle_path(@billing_cycle), method: 'PUT', style: "margin-right: 3px;" do
+              %span.glyphicon.glyphicon-ok
+            = link_to 'SEPA', export_sepa_billing_cycle_path(@billing_cycle)
+
+        %ol#new.receivables(data-state='new' data-type='direct-debit')
+          - @billing_cycle.receivables.direct_debit.paid(false).each do |receivable|
+            = render 'receivable', receivable: receivable
+
+      .col-md-4
+        %h3 Bezahlt
+        %ol#paid.receivables(data-state='paid')
+          - @billing_cycle.receivables.paid(true).each do |receivable|
+            = render 'receivable', receivable: receivable
+
+      -#
+      -#.col-lg-3
+      -#  %h3 Retouren
+      -#  %ol#failed.receivables(data-state='failed')
+      -#    - @billing_cycle.receivables.failed.each do |receivable|
+      -#      = render 'receivable', receivable: receivable
+
+
+  .modal.fade{"id" => "contractModal", "tabindex" =>"-1", "role" =>"dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>"true" }
+    .modal-dialog
+      .modal-content

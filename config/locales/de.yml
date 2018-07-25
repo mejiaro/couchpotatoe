@@ -1,0 +1,87 @@
+de:
+  number:
+    format:
+      separator: '.'
+      delimiter: ','
+      precision: 2
+
+  will_paginate:
+    previous_label: "&#8592; Zurück"
+    next_label: "Weiter &#8594;"
+    page_gap: "&hellip;"
+
+  requests:
+    index:
+      title: "Anfragen"
+      created_at: "Erstellt vor"
+  helpers:
+    links:
+      destroy: "Abbrechen"
+      edit: "Bearbeiten"
+  models:
+    user:
+      name: "Meine Daten"
+    rentable_item:
+      name: "Zimmer/Wohnung"
+    request:
+      name: "Anfragen"
+      start_date: "Vertragsstart"
+      end_date: "Vertragsende"
+      state: 'Status'
+      visit: 'Besichtigung erwünscht?'
+      account_name: 'Vermieter'
+
+    contract:
+      name: "Verträge"
+  activerecord:
+    models:
+      request: Anfrage
+      contract:
+        one: Vertrag
+        other: "Verträge"
+      billing_item: 'Artikel'
+
+
+    attributes:
+      request:
+        name: 'Anfrage'
+        start_date: "Vertragsstart"
+        end_date: "Vertragsende"
+        state: "Status"
+        visit: "Besichtigung erwünscht?"
+        message: "Deine Nachricht an uns"
+      contract:
+        rentable_item_id: "Zimmer/Wohnung"
+        state: "Status"
+        price_in_cents: "Miete"
+        deposit_in_cents: "Kaution"
+        extras_in_cents: "Dazugebuchte Dienstleistungen"
+        start_date: "Vertragsstart"
+        end_date: "Vertragsende"
+        account_id: "Vermieter"
+        internet: "Internet?"
+        next_mandate_state: "Lastschrift Status"
+        created_at: "Erstellt vor"
+        signed_contract: "Unterschrieber Vertrag"
+      billing_item:
+        price: 'Forderungsbetrag'
+        mode: 'Modus'
+        name: 'Bezeichnung'
+        billing_account: 'Buchungskonto'
+      user:
+        anrede: Anrede
+        firstname: Vorname
+        lastname: Nachname
+        birthdate: Geburtsdatum
+        email: E-Mail
+        phone: Telefonnummer
+        address: Adresse
+        zip: PLZ
+        city: Stadt
+        country: Land
+        bank_account_holder: Name des Kontoinhabers
+        bank_name: Name der Bank
+        bic: BIC
+        iban: IBAN
+        password: Passwort
+        password_confirmation: Passwort bestätigen

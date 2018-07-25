@@ -1,0 +1,21 @@
+#currentSubject(style='display: none;'){'data-id' => @subject.id}
+- if @subject.messages.empty?
+  %h4(style='text-align: center;') Konversation mit #{ is_manage? ? @subject.user.fullname : @subject.account.public_name }: #{ @subject.title }
+- else
+  - @subject.messages.group_by { |m| m.created_at.yday }.each do |date, group_messages|
+
+    .alert.alert-info.msg-date
+      %strong= (Date.today.yday == date) ? 'Heute' : I18n.l(group_messages.first.created_at.to_date)
+    - group_messages.each do |message|
+
+      .media.msg{"data-subject_id" => message.subject.id}
+        %a.pull-left{:href => "#"}
+          %img.media-object{src: user_image(message.author), :style => "width: 32px; height: 32px;"}/
+        .media-body
+          %small.pull-right.time
+            %i.fa.fa-clock-o
+            =  distance_of_time_in_words_to_now message.created_at
+            her
+          %h5.media-heading
+            =message.author.fullname
+          %small.col-lg-10= raw simple_format message.text

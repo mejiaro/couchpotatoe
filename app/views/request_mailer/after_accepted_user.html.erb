@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+
+<h1><%= @request.account.public_name %>: Anfrage akzeptiert</h1>
+
+<p>Hallo <%= @request.user.firstname %>,</p>
+
+<p>du hattest am <%= I18n.l @request.created_at %> eine Anfrage bezüglich eines Zimmers gestellt.
+Sofern du noch Interesse an der Anmietung hast, können wir dir mitteilen, dass dein ausgewähltes Zimmer <%= @request.rentable_item.number %> von Dir angemietet werden kann.
+Dafür ist es erforderlich, dass du uns weitere Daten mitteilst.
+Bei der Zimmerauswahl kannst du deinen Zimmerwunsch noch ändern, sofern dein gewünschtes Zimmer nicht mehr verfügbar ist bzw. du dich doch für ein anderes Zimmer entschieden hast.
+</p>
+
+<p>
+  Hier geht es nun zur notwendigen Dateneingabe:
+  <%= link_to 'Vertragsdaten eingeben.', edit_user_url(@request.user) %>
+</p>
+
+<p>Liebe Grüße aus der Hansestadt Hamburg,</p>
+
+<p>dein <%= @request.account.public_name %> Team</p>
+
+</body>
+</html>

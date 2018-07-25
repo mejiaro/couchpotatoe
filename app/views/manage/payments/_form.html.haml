@@ -1,0 +1,17 @@
+= form_for [@contract, @payment], html: { class: "form form-horizontal" } do |f|
+  - if @receivable
+    = f.hidden_field(:receivable_id, value: @receivable.id)
+
+  .form-group
+    = f.label(:name, 'Verwendungszweck')
+    = f.text_field(:name, class: 'form-control', value: @payment.new_record? && @receivable ? @receivable.payment_reference : @payment.name)
+
+  .form-group
+    = f.label(:paid_on, 'Zahlungseingangsdatum')
+    = f.date_select(:paid_on, class: 'form-control')
+
+  .form-group
+    = f.label(:amount, 'Betrag')
+    = f.text_field(:amount, class: 'form-control', value:  number_to_currency(@payment.new_record? ? (@receivable ? @receivable.debit : 0) : @payment.amount, delimiter: ''))
+
+  = f.submit 'Speichern',class: 'btn btn-primary'

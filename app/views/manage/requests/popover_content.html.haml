@@ -1,0 +1,26 @@
+#requestUserDetail
+  - if @request.user.image.present?
+    %p
+      = image_tag @request.user.image.image(:thumb)
+  - if @request.user.birthdate.present?
+    %p
+      %b Geburtsdatum
+      = I18n.l @request.user.birthdate
+
+  - if @request.user.address.present?
+    %p
+      = @request.user.address
+      %br
+      = @request.user.city
+      = @request.user.zip
+      %br
+      = @request.user.country
+
+  %p
+    %b E-Mail
+    = @request.user.email
+
+  - if @request.user.phone.present?
+    %p
+      %b Tel
+      = @request.user.phone

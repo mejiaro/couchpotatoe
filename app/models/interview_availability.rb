@@ -1,0 +1,2 @@
+class InterviewAvailability < Event
+end

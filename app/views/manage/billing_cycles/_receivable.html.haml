@@ -1,0 +1,10 @@
+%li(data-on-drop-action="#{ contract_receivable_path(receivable.contract, receivable) }.js")
+  %strong
+    %a.show-contract-details(href="#" data-contract-id="#{receivable.contract.id}")= receivable.user ? receivable.user.fullname : receivable.id
+  \-
+  = number_to_currency receivable.price
+  %br
+  = receivable.payment_reference
+  - if receivable.paid? && !receivable.failed?
+    &middot;
+    = link_to 'Retoure', refusal_contract_receivable_path(receivable.contract, receivable, billing_cycle: true), method: :post

@@ -1,0 +1,227 @@
+#financeDashboard + footer {
+  margin-top: 20px !important;
+}
+
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+
+  z-index: 2000;
+}
+
+ol.receivables li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+
+ol.receivables li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}
+
+#financeDashboard {
+
+  #ReceivableStateEditor {
+    div:nth-child(1+2) {
+      color: spin(@dark-color, 2 * 137.51);
+    }
+
+    div:nth-child(3) {
+      color: spin(@dark-color, 137.51);
+    }
+
+    div:nth-child(4) {
+      color: @dark-color;
+    }
+
+    h3 {
+      padding: 15px;
+      background: @bright-color;
+
+      border: 1px solid lighten(slategrey, 35);
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      margin-bottom: -5px;
+
+      #sepa-export {
+        font-size: 0.5em;
+        line-height: 22.5px;
+      }
+    }
+
+    margin-top: 20px;
+    ol {
+      height: 200px;
+      overflow: auto;
+
+      border-radius: 4px;
+      padding: 10px;
+      background-color: @dark-color;
+      list-style-type: none;
+
+      li {
+        margin-bottom: 2px;
+        padding: 7px;
+        height: auto;
+        min-height: 30px;
+        font-size: 15px;
+        background-color: fade(@bright-color, 20%);
+        cursor: pointer;
+        color: @bright-color;
+
+        a { color: @bright-color; }
+      }
+    }
+
+    ol#paid {
+      background-color: spin(@dark-color, 137.51);
+    }
+
+    ol#new {
+      background-color: spin(@dark-color, 2 * 137.51);
+    }
+
+  }
+
+  .col-lg-11 {
+    margin: 0;
+    padding: 0;
+    width: 90%;
+  }
+
+  #chart {
+    width: 100%;
+    height: 250px;
+
+
+    .c3-target-new {
+      .c3-shape {
+        fill: spin(@dark-color, 2 * 137.51);
+        stroke: spin(@dark-color, 2 * 137.51);
+        fill-opacity: 0.5;
+      }
+    }
+
+    .c3-target-paid {
+
+      .c3-shape {
+        fill: spin(@dark-color, 137.51);
+        stroke: spin(@dark-color, 137.51);
+        fill-opacity: 0.5;
+
+      }
+    }
+  }
+
+  #FinanceNavigation {
+
+    margin-right: -7px;
+    padding: 0;
+    z-index: 100;
+    height: auto;
+    width: 70px;
+
+    -moz-box-shadow:   1px 1px 5px #888;
+    -webkit-box-shadow:   1px 1px 5px #888;
+    box-shadow:   1px 1px 5px #888;
+
+    li, li.active a, a:hover {
+      background: @dark-color;
+      color: @bright-color;
+    }
+
+    #search-receivables {
+      position: relative;
+      z-index: 1000;
+    }
+
+    #input-search-receivables {
+      z-index: 1010;
+
+      display: none;
+      position: absolute;
+
+      font-size: 1.5em;
+
+      text-align: center;
+
+      width: 300px;
+      height: 50px;
+
+      top: -5px;
+      left: -50px;
+
+      padding: 5px;
+
+      border-radius: 30px;
+      border: 2px solid @bright-color;
+
+      background-color: @dark-color;
+      color: @bright-color !important;
+
+      -moz-box-shadow:   1px 1px 5px #888;
+      -webkit-box-shadow:   1px 1px 5px #888;
+      box-shadow:   1px 1px 5px #888;
+
+      opacity: 0.8;
+
+      outline: none;
+    }
+
+    &> li  {
+      margin: 0px;
+      height: 100px;
+      line-height: 100px;
+
+      a {
+        height: 100%;
+        margin: 0px;
+        border-radius: 0px;
+        padding: 0;
+        text-align: center;
+        background: @bright-color;
+        border-bottom: 1px solid rgba(187, 187, 187, 0.71);
+      }
+
+      &.active a {
+        background: @bright-color;
+        -moz-box-shadow:  inset 2px 2px 10px #888;
+        -webkit-box-shadow: inset  2px 2px 10px #888;
+        box-shadow:  inset 2px 2px 10px #888;
+        color: gray;
+
+      }
+    }
+
+    li.dropup:hover > ul.dropdown-menu {
+      display: block;
+      overflow: auto;
+    }
+
+    .dropdown-menu {
+      margin: 0;
+      bottom: -20%;
+      left: 80%;
+      padding: 0;
+    }
+  }
+}
+
+#contract-receivables li.receivable {
+  &:hover {
+    cursor: pointer;
+    opacity: 1 !important;
+  }
+
+  .form-inline {
+    display: none;
+    margin-top: -6px;
+    input {
+      text-align: right;
+      width: 70px;
+    }
+  }
+}

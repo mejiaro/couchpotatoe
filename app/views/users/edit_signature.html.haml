@@ -1,0 +1,10 @@
+#autosign
+  = form_tag({ url: edit_signature_user_path(current_user) }, { class: 'sigPad' }) do
+    .sig.sigWrapper
+      %canvas.pad{:height => "180", :width => "500"}
+      %input.output{:name => "output", :type => "hidden"}/
+
+    %a.btn.btn-inverse{href: edit_signature_user_path(current_user) }
+      Nochmal versuchen!
+
+    %button.btn.submit{:type => "submit"} Speichern

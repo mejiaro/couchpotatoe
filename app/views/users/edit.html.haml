@@ -1,0 +1,37 @@
+- provide(:container_css_class, current_account && 'related-account')
+
+.row
+  .col-lg-4.col-lg-offset-4
+    - if current_user.signature_data.present?
+      #autosignDisplay.sigPad{ "data-signature_data" => current_user.signature_data }
+        .sig.sigWrapper
+          %canvas.pad{:height => "90", :width => "250"}
+
+    = link_to "Online Unterschrift", edit_signature_user_path(current_user), class: 'btn', style: 'width: 100%'
+
+%br
+%br
+.row
+  = bootstrap_form_for current_user, html: { role: 'form', style: 'margin-left: auto; margin-right: auto;' } do |form|
+    .col-lg-4
+      = form.text_field :anrede
+      = form.text_field :firstname
+      = form.text_field :lastname
+      = form.date_field :birthdate, start_year: Time.now.year - 90, end_year: Time.now.year - 18
+      = form.email_field :email
+      = form.text_field :phone
+
+    .col-lg-4
+      = form.text_field :address
+      = form.text_field :zip
+      = form.text_field :city
+      = form.text_field :country
+
+    .col-lg-4
+      = form.text_field :bank_account_holder
+      = form.text_field :bank_name
+      = form.text_field :bic
+      = form.text_field :iban
+      = form.password_field :password
+      = form.password_field :password_confirmation
+      %button.btn.btn-primary Speichern

@@ -1,0 +1,46 @@
+- provide(:container_css_class, 'related-account')
+%style
+  body {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  height: auto;
+  }
+
+.row.subjects
+
+  .conversation-wrap.col-lg-3
+    .cnvs-wrap.container-fluid
+      - current_user.subjects.order('created_at DESC').each do |subject|
+        .media.conversation(class="#{ 'active' if subject == @subject }")
+          %a.pull-left{:href => "", id: subject.id}
+            %img.media-object{:src => user_image(subject.account), :style => "width: 50px; height: 50px;"}/
+          %a.media-body.conversation-link(href='#' data-id="#{subject.id}")
+            %h5.media-heading= subject.account.public_name
+            %small= "#{ subject.title }"
+    = form_tag subjects_path do
+      %input.form-control(name='title' placeholder="Betreff" )
+      - unless current_account
+        %select.form-control(name='account_id')
+          - Account.joins(:rentable_items).group('accounts.id').having('count(rentable_items.id) > ?', 0).each do |account|
+            %option{value: account.id}= account.public_name
+      - else
+        = hidden_field_tag :account_id, current_account.id
+      %button.btn.new-message
+        %i.fa.fa-plus
+        Neue Konversation beginnen
+
+
+
+
+  .message-wrap.col-lg-9
+    -  if @subject
+      .msg-wrap
+        = render 'subjects/messages', subject: @subject
+      .send-wrap
+        .form-group
+          %textarea.form-control.send-message{:placeholder => "Deine Nachricht...", :rows => "3"}
+        %a.send-message.btn{:href => "#"}
+          %i.fa.fa-plus
+          Abschicken
+    - else
+      %h2(style='text-align: center;') Es gibt keine dummen Fragen ;)

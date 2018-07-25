@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+  <h1>Unterschrift <%= @contract.rentable_item.display_name %></h1>
+  <p>Hallo <%= @contract.user.fullname %>,</p>
+  <p>
+    Du hast erfolgreich den Vertrag für das von dir gewünschte Objekt <%= @contract.rentable_item.display_name %> unterschrieben.
+  </p>
+
+  <p>
+    Der Vermieter wird deinen Vertrag schnellstmöglich prüfen und gegebenenfalls unterschrieben.
+    Sobald das passiert, kriegst du eine E-Mail Benachrichtigung.
+  </p>
+
+  <p><%= link_to 'Du kannst deine Anfrage hier jederzeit einsehen.', request_url(@contract.request) %></p>
+
+  <p>
+    Eine angenehme Zeit in <%= @contract.rentable_item.city %> wünscht,
+    <br />
+    Das Team von <%= @contract.account.public_name %>
+  </p>
+
+</body>
+</html>

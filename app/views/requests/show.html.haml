@@ -1,0 +1,126 @@
+#requests-renter
+  %table.table
+    %thead
+      %tr
+        %th= t('models.request.start_date')
+        %th= t('models.request.end_date')
+        %th Miete
+        %th Kaution
+  
+    %tbody
+      %tr
+        %td= l @request.start_date
+        %td= l @request.end_date
+        %td
+          = number_to_currency @request.rentable_item.price
+          - if @request.contract.billing_items.contract_monthly.any?
+            (+ #{number_to_currency @request.contract.billing_items.contract_monthly.map(&:price).sum})
+        %td= number_to_currency @request.rentable_item.deposit
+      %tr.progress-row
+        %td.progress-row(colspan=4)
+          .progress-navigation
+            .progress
+              .progress-bar.progress-bar-success.progress-bar-striped.active(role='progressbar' aria-valuemin='0' aria-valuemax='100'){ 'aria-valuenow' => @request.progress, style: "width: #{ @request.progress }%;"}
+              %span(style='margin-left: 5px;')= "#{ progress_title(@request) }"
+
+  %div
+    %ul.nav.nav-tabs{:role => "tablist"}
+      %li.active{:role => "presentation"}
+        %a{"aria-controls" => "contract", "data-toggle" => "tab", :href => "#contract", :role => "tab"} Unterschreiben
+      %li{:role => "presentation"}
+        %a{"aria-controls" => "verification", "data-toggle" => "tab", :href => "#verification", :role => "tab"} Verifizierung
+      %li{:role => "presentation"}
+        %a{"aria-controls" => "deposit", "data-toggle" => "tab", :href => "#deposit", :role => "tab"} Kaution
+      %li{:role => "presentation"}
+        %a{"aria-controls" => "voting", "data-toggle" => "tab", :href => "#voting", :role => "tab"} Casting
+      %li{:role => "presentation"}
+        %a{"aria-controls" => "request", "data-toggle" => "tab", :href => "#request", :role => "tab"} Bearbeiten
+    .tab-content.request-action-tabs
+      #contract.active.tab-pane{:role => "tabpanel"}
+        .request-actions__flex-wrapper
+          .request-actions__flex-item
+            
+            %a.btn.btn-inverse.autosign-btn(href='#'){ "data-contract-id" => @request.contract.id } Online unterschreiben
+            %br
+            %h4(style='text-align: center;')oder
+            %br
+            = link_to '1.) Herunterladen & ausdrucken', blank_contract_request_path(@request), class: 'btn btn-inverse'
+            = form_tag(upload_request_path(@request, document_type: 'signed_contract'), multipart: true, method: :post, class: 'form-inline') do
+              .form-group
+                = file_field_tag :document, label: "Von dir unterschriebener Vertrag", class: 'form-control'
+              = submit_tag "2.) Einscannen & hochladen", class: 'btn btn-inverse'
+  
+      #verification.tab-pane{:role => "tabpanel"}
+        .request-actions__flex-wrapper
+          .request-actions__flex-item
+            %p.highlight-text
+              Dein Ausweis-Scan hilft uns deine Anfrage von Fake-Anfragen zu unterscheiden.
+              = link_to '(Kopie herunterladen)',  passport_request_path(@request) if @request.contract.passport.present?
+      
+            = form_tag(upload_request_path(request, document_type: 'passport'), multipart: true, method: :post, class: 'form-inline') do
+              .form-group
+                = file_field_tag :document, label: "Dein Ausweis", class: 'form-control'
+              = submit_tag "Ausweis verifizieren", class: 'btn btn-inverse'
+  
+  
+      #deposit.tab-pane{:role => "tabpanel"}
+        .request-actions__flex-wrapper
+          .request-actions__flex-item
+    
+            %p.highlight-text
+              Beachte, dass der Vertrag erst nach Bezahlung der Kaution gültig ist. Solang die Kaution bei uns noch nicht eingegangen ist, bleibt das Zimmer noch im Netz für andere buchbar.
+              - if @request.account.paypal_deposit?
+                Du willst die Sache beschleunigen? Bei uns kannst du die Kaution auch mit PayPal bezahlen.
+              - if @request.account.paypal_deposit?
+                %br
+                = link_to 'Kaution mit PayPal bezahlen', pay_request_path(request), class: 'btn btn-inverse', style: 'margin-top: -5px;'
+                %br
+                %br
+                Falls du lieber überweisen möchtest, ist die Kaution in Höhe von #{ number_to_currency @request.contract.deposit } auf folgendes Konto zu überweisen:
+              - else
+                Die Kaution in Höhe von #{ number_to_currency @request.contract.deposit } ist auf folgendes Konto zu überweisen:
+              %br
+              %br
+              Kontoinhaber: #{ @request.account.deposits_bank_account_owner }
+              %br
+              IBAN: #{ @request.account.deposits_iban }
+              %br
+              BIC: #{ @request.account.deposits_bic }
+      #voting.tab-pane{:role => "tabpanel"}
+        .request-actions__flex-wrapper
+          .request-actions__flex-item
+            %p.highlight-text
+              Du kannst deine Chancen erhöhen in dem du deine persönlichen Daten für die Bewohner freigibst. So können sie sich einen Eindruck von dir machen.
+              
+            %p.highlight-text.enable-voting-success{style: @request.enable_voting? ? '' : 'display: none;'}
+              Die Bewohner können jetzt deine persönlichen Daten sehen und für dich abstimmen.
+              
+            - unless @request.enable_voting?
+              = button_to 'Persönliche Daten für Bewohner freigeben', request_path(@request), class: 'btn btn-inverse', remote: true, method: :put, params: { 'request[enable_voting]' => true }, data: { confirm: 'Bist du dir sicher?' }
+  
+      #request.tab-pane{:role => "tabpanel"}
+        .request-actions__flex-wrapper
+          .request-actions__flex-item
+            - if @request.account.billing_items.contract_monthly.any?
+              .request-actions__billing-items.highlight-text(style='min-width: 60%')
+                %h3 Zusatzleistungen
+                %h4 Verfügbar
+                .available-billing-items
+                  - (@request.account.billing_items.contract_monthly - @request.contract.billing_items).each do |bi|
+                    = link_to bi.display_text, add_billing_item_request_path(@request, billing_item: bi.id), method: 'PATCH', remote: true, class: 'btn', data: { billing_item_id: bi.id.to_s }
+                  - (@request.contract.billing_items & @request.account.billing_items.contract_monthly).each do |bi|
+                    = link_to bi.display_text, add_billing_item_request_path(@request, billing_item: bi.id), method: 'PATCH', remote: true, class: 'btn billing_item__hidden', data: { billing_item_id: bi.id.to_s }
+  
+                %h4 Angefordert
+                .selected-billing-items
+                  - (@request.contract.billing_items & @request.account.billing_items.contract_monthly).each do |bi|
+                    = link_to bi.display_text, delete_billing_item_request_path(@request, billing_item: bi.id), method: 'PATCH', remote: true, class: 'btn', data: { billing_item_id: bi.id.to_s }
+                  - (@request.account.billing_items.contract_monthly - @request.contract.billing_items).each do |bi|
+                    = link_to bi.display_text, delete_billing_item_request_path(@request, billing_item: bi.id), method: 'PATCH', remote: true, class: 'btn billing_item__hidden', data: { billing_item_id: bi.id.to_s }
+            = link_to 'Anfrage abbrechen', request_path(@request), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-inverse'
+
+  
+  
+  .modal.fade{"id" => "autosignModal", "tabindex" =>"-1", "role" =>"dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>"true" }
+    .modal-dialog
+      .modal-content

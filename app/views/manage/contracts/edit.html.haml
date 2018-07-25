@@ -1,0 +1,38 @@
+%h2#contract-modal-heading
+  = @contract.user.fullname
+  &middot;
+  = @contract.rentable_item.number
+
+
+%ul.nav.nav-tabs.nav-justified(role="tablist")
+  %li.active
+    %a(href="#contract" role='tab' data-toggle='tab') Vertrag
+  %li
+    %a(href="#subject" role='tab' data-toggle='tab') Kontaktieren
+  %li
+    %a(href="#finances" role='tab' data-toggle='tab') Finanzen
+  %li
+    %a(href="#AutoSignContract" role='tab' data-toggle='tab') AutoSign
+
+.tab-content{ 'data-contract-id' => @contract.id }
+  .tab-pane.active#contract
+    = render 'edit'
+
+  .tab-pane#subject
+    = form_for :subject, url: subjects_path do |form|
+      = form.hidden_field :user_id, value: @contract.user.id
+      .form-group
+        = form.label :title, 'Betreff'
+        = form.text_field :title, class: 'form-control'
+      = form.submit 'Nachricht schreiben', class: 'btn'
+      - if @contract.user.phone.present?
+        %span.pull-right(style='font-size: 1.5em; line-height: 1.5em;')
+          oder anrufen:
+          %b= @contract.user.phone
+
+  .tab-pane#finances
+    = render 'finances'
+
+  .tab-pane#AutoSignContract{ "data-contract_id" => @contract.id }
+    = image_tag preview_contract_path(@contract, document_type: 'signed_contract'), style: 'width: 100%; height: auto;'
+    #sigPlaceHolder

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+  <h1>Vertragserstellung für <%= @contract.rentable_item.display_name %></h1>
+  <p>Hallo <%= @contract.user.fullname %>,</p>
+  <p>
+    Du hast erfolgreich einen Vertrag für das von dir gewünschte Objekt <%= @contract.rentable_item.display_name %> erstellt.
+  </p>
+
+  <p>
+    Bitte unterschreibe den Vertrag und stelle den eingescannten Vertrag über die Upload-Funktion der Hausverwaltung <%= @contract.account.public_name %> zur Verfügung.
+    Oder unterschreibe ohne diesen ausdrucken zu müssen einfach mit der <%= link_to 'Online-Unterschrtift.', requests_url %>
+  </p>
+
+  <p>
+    Wichtig: Bitte den Vertrag als PDF bereitstellen, wenn du beabsichtigst diesen hochzuladen.
+  </p>
+
+  <p><%= link_to 'Du kannst deine Anfrage hier jederzeit einsehen.', request_url(@contract.request) %></p>
+
+  <p>
+    Eine angenehme Zeit in <%= @contract.rentable_item.city %> wünscht,
+    <br />
+    Das Team von <%= @contract.account.public_name %>
+  </p>
+
+</body>
+</html>

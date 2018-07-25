@@ -1,0 +1,100 @@
+- content_for(:javascript) do
+  = javascript_include_tag('jquery-ui/sortable')
+
+#item-type-attributes{"data-values" => ItemTypeAttribute.all.map(&:value).to_json }
+
+
+#newRentableItem.modal.fade{ "tabindex" =>"-1", "role" =>"dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>"true" }
+  .modal-dialog
+    .modal-content
+      = form_for @rentable_item do |f|
+        -#.form-group
+        -#  = f.select :type, ['Wohnung', 'Zimmer', 'Haus'], {}, class: 'form-control'
+        .form-group
+          = f.label :number, 'Interne Bezeichnung (so wie sie bspw. in Verträgen verwendet wird)'
+          = f.text_field :number, class: 'form-control'
+        .form-group
+          = f.label :ad_name, 'Anzeigename (für die Akquisee)'
+          = f.text_field :ad_name, class: 'form-control'
+        .form-group
+          = f.label :description, 'Beschreibung'
+          = f.hidden_field :description, id: 'description'
+          %trix-editor{input: 'description'}
+        .form-group
+          = f.label :blocked, 'Im Verkauf?'
+          = f.check_box :blocked, { checked: true },  '0', '1'
+        = f.submit 'Speichern', class: 'btn submit'
+
+.modal#rentable-item-modal.fade{ "tabindex" =>"-1", "role" =>"dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>"true" }
+  .modal-dialog
+    .modal-content
+
+
+.container
+  .row
+    .col-lg-1
+      %ul.nav.nav-pills.nav-stacked#ListingsNavigation(data-spy="affix")
+        %li#rentable-items-search
+          %a#toggle-rentable-items-search(href='#')
+            %span.glyphicon.glyphicon-search
+          %input#query-rentable-items-search(type='text')
+
+        %li
+          %a.add(href='#')
+            %span.glyphicon.glyphicon-plus
+
+          %li.dropup
+            %a(href='#' class='dropdown-toggle' data-toggle='dropdown')
+              %span.glyphicon.glyphicon-filter
+            %ul.container-item-filter.dropdown-menu(role='menu')
+              %li{ class: current_page?("/rentable_items?blocked=1") && 'active' }
+                = link_to 'Geblockt', rentable_items_path(blocked: 1)
+              %li{ class: current_page?("/rentable_items?blocked=0") && 'active' }
+                = link_to 'Im Verkauf', rentable_items_path(blocked: 0)
+              - if current_account.container_items.any?
+                - current_account.container_items.all.each.with_index do |container_item, i|
+                  %li{ class: current_page?("/rentable_items?container_item_id=#{ container_item.id }") && 'active' }
+                    = link_to container_item.display_name, rentable_items_path(container_item_id: container_item.id)
+    .col-lg-11
+
+
+      .masonry_container
+        - if @rentable_items.empty?
+          %h2(style='text-align: center;') Keine vorhandenen Objekte
+          %p(style='text-align: center;') Um die Vermietung zu starten, können sie per Klick auf das Plus-Zeichen neue Vermietungsobjekte anlegen.
+        - @rentable_items.each  do |item|
+          .masonry_item{ class: "col-xs-12 col-md-6 col-md-4", id: (@highlighted && item.id == @highlighted.id) && 'highlighted' }
+
+            .thumbnail
+              - if item.images.any?
+                %a.edit-rentable-item{ href: '#', "data-rentable-item-id" => item.id }
+                  %img{ src: item.images.first.image.url(:medium), alt: 'Wohnung', style: 'margin-bottom: 15px;' }
+              .caption(style='padding-top: 0;')
+                %table.table
+                  %tr
+                    %th(colspan=3)
+                      %a.edit-rentable-item{ href: '#', "data-rentable-item-id" => item.id}
+                        %h4= item.ad_name
+
+                        %p= truncate(strip_tags(item.description), :length => 60, :separator => ' ')
+                  %tr
+                    %th
+                      %strong= number_to_currency item.price
+
+                      &middot;
+
+                      %strong= item.size
+                      m&sup2;
+
+                      &middot;
+
+                      Ab
+                      %strong= I18n.l item.earliest_available
+
+                  %tr
+                    %th
+                      = item.full_address
+
+
+  .sw-pagination
+    = will_paginate @rentable_items, renderer: BootstrapPagination::Rails

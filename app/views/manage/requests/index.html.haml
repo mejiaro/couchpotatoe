@@ -1,0 +1,70 @@
+#requests
+- if @requests.any?
+  - @requests.group_by(&:rentable_item).each do |ri, requests_by_ri|
+    .panel.panel-default.request
+      .panel-heading
+        %h4.panel-title
+          %td= link_to "#{ri.address} - #{ri.number}", rentable_item_path(ri.id)
+      .panel-body
+        %table.table
+          %thead
+            %tr
+              %th(width='*') Anfrager
+              %th(width='*') Zeitraum
+              %th(width='*') Gestellt vor
+              - unless params[:archived]
+
+                %th(width='12%') Kaution bezahlt?
+              %th(width='*')
+                %a.help(href='#' data-toggle="tooltip" data-placement="top" title="Setzt sich aus vielen Faktoren zusammen, wie z.B. ob der Nutzer bereits bei uns verifiziert ist oder seiner Zahlungsmoral.")
+                Anfragequalität
+              - unless params[:archived]
+                %th(wdith='*')
+              %th(width='5%')
+
+          %tbody
+            - requests_by_ri.each do |request|
+              %tr
+                %td
+                  %span{ class: 'request-popover', "data-id" => request.id }
+                    = request.user.fullname
+                %td= link_to "#{ I18n.l request.start_date } - #{ I18n.l request.end_date }", bookings_rentable_items_path(requested_booking: request.contract)
+                %td
+                  %span
+                    = distance_of_time_in_words_to_now request.created_at
+                - unless params[:archived]
+                  %td
+                    - if request.contract.deposit_paid?
+                      .glyphicon.glyphicon-ok
+                      &middot;
+                      = link_to contract_path(request.contract, contract: { deposit_paid: false }), method: :put do
+                        Nicht bezahlt?
+                    - else
+                      .glyphicon.glyphicon-remove
+                      &middot;
+                      = link_to contract_path(request.contract, contract: { deposit_paid: true }), method: :put do
+                        Bezahlt?
+                %td
+                  .progress(style='background: #FCFBE3 !important;')
+                    .progress-bar.progress-bar-success.progress-bar-striped.active(role="progressbar" aria-valuenow="#{ request.quality }" aria-valuemin="0" aria-valuemax="100" style="width: #{ request.quality }%;")
+                - unless params[:archived]
+                  %td
+                    = render request_actions_partial(request), object: request
+                %td
+                  = link_to subjects_path(user_id: request.user_id, title: 'Deine Anfrage'), method: :post do
+                    %span.glyphicon.glyphicon-envelope
+  .sw-pagination
+    = will_paginate @requests, renderer: BootstrapPagination::Rails
+- else
+  %h2(style='text-align: center;') Noch keine Anfragen
+  %p(style='text-align: center;')
+    Sobald sie die ersten Vermietungsobjekte in
+    = link_to 'den Verkauf gestellt haben,', rentable_items_path
+    werden hier Anfragen von couchpotatoe-Mitgliedern
+    angezeigt. Aufgrund der hier dargestellten
+    Informationen haben sie jederzeit die Möglichkeit
+    einer Vermietung zuzustimmen oder sie zu verneinen.
+
+.modal.fade{"id" => "autosignModal", "tabindex" =>"-1", "role" =>"dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>"true" }
+  .modal-dialog
+    .modal-content

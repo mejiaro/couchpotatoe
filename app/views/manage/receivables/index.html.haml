@@ -1,0 +1,66 @@
+.page-header
+  %h3
+    Abrechnung
+
+    = link_to bookings_rentable_items_path(contract_id: @contract.id) do
+      &middot;
+      = @contract.user.fullname
+      &middot;
+      = @contract.rentable_item.number
+      &middot;
+      = l @contract.start_date
+      bis
+      = l @contract.end_date
+
+%table.table
+  %thead
+    %tr
+      %th Bezeichnung/Verwendungszweck
+      %th Fällig am/Bezahlt am
+      %th Betrag
+      %th=t '.actions', :default => t("helpers.actions")
+  %tbody
+    - @receivables_and_payments.each do |receivable_or_payment|
+      - if (receivable = receivable_or_payment).is_a?(Receivable)
+        %tr{class: receivable.paid? ? 'info' : 'danger'}
+          %td
+            Forderung:
+            = receivable.payment_reference
+          %td= l receivable.due_since
+          %td= number_to_currency receivable.price
+          %td
+            = link_to 'Zahlung buchen', new_contract_payment_path(@contract, receivable_id: receivable)
+            &middot;
+            = link_to 'Bearbeiten', edit_contract_receivable_path(@contract, receivable)
+            &middot;
+            = link_to 'Löschen', contract_receivable_path(@contract, receivable), :method => :delete, :data => { :confirm => 'Wirklich löschen?' }
+            - if receivable.paid? && !receivable.failed?
+              &middot;
+              = link_to 'Retoure', refusal_contract_receivable_path(@contract, receivable), method: :post
+            - if receivable.failed?
+              &middot;
+              Fehlgeschlagen am
+              = l receivable.failed_on.to_date
+
+
+      - elsif (payment = receivable_or_payment).is_a?(Payment)
+        %tr.success
+          %td
+            Zahlung:
+            = payment.payment_reference
+          %td= payment.paid_on && l(payment.paid_on.to_date)
+          %td= number_to_currency payment.amount
+          %td
+            = link_to 'Bearbeiten', edit_contract_payment_path(@contract, payment)
+            &middot;
+            = link_to 'Löschen', contract_payment_path(@contract, payment), method: :delete, :data => { :confirm => 'Wirklich löschen?' }
+    %tr{class: @contract.balance >= 0 ? 'success' : 'danger' }
+      %td(colspan=2)
+        %b Saldo (bereits mit Kaution verechnet)
+      %td(colspan=2)
+        %b= number_to_currency @contract.balance
+
+= link_to 'Neue Forderung', new_contract_receivable_path(@contract), :class => 'btn btn-primary'
+= link_to 'Neue Zahlung', new_contract_payment_path(@contract), :class => 'btn btn-primary'
+= link_to 'Als PDF herunterladen', generate_bill_contract_path(@contract), class: 'btn'
+= link_to 'Zwischenabrechnung als PDF herunterladen', generate_bill_contract_path(@contract, current: true), class: 'btn'

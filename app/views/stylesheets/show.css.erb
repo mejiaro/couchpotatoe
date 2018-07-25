@@ -1,0 +1,1 @@
+<%= raw Less::Parser.new(paths: Couchpotatoe::Application.config.less.paths).parse(@less).to_css(compress: true) -%>

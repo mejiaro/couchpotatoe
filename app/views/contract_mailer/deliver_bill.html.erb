@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <p>
+    Sehr geehrte/r Frau / Herr <%= @contract.user.lastname %>,
+  </p>
+  
+  <p>
+    Sie erhalten im
+    Anhang eine <%= @current ? 'Zwischenabrechnung' : 'Abrechnung' %> hinsichtlich Ihres Mietverhältnisses
+    <%= @contract.rentable_item.full_address %> <%= @contract.rentable_item.number %> im Zeitraum
+    <%= I18n.l(@contract.start_date) %> - <%= I18n.l(@contract.end_date) %>.
+  </p>
+  
+  <p>
+    Bei Rückfragen oder
+    Beanstandungen, freuen wir uns, wenn Sie per E-Mail mit uns in
+    Kontakt treten und etwaige vorab Zahlungsbelege bereits beifügen.
+  </p>
+  
+  <% unless @current %>
+    <p>
+      Wir hoffen, dass Sie
+      einen schönen Aufenthalt bei uns hatten und wünschen Ihnen für die
+      Zukunft alles Gute.  
+    </p>
+  <% end %>
+  
+  <p>
+    Mit freundlichen
+    Grüßen
+    
+    Ihr <%= @contract.account.public_name %> Team    
+  </p>
+</body>
+</html>

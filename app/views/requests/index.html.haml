@@ -1,0 +1,12 @@
+- provide(:container_css_class, current_account && 'related-account')
+
+- if @requests.none?
+  %h4(style='text-align: center;') Du hast momentan keine laufenden Anfragen.
+
+.list-group
+
+
+- @requests.each do |request|
+  - ri = RentableItem.find(request.rentable_item_id)
+  %a.list-group-item{:href => request_path(request)}
+    = ri.ad_name

@@ -1,0 +1,37 @@
+%h2 Kaution
+#deposit-info{ class: @contract.deposit_paid? ? 'hide-paid-action' : 'hide-not-paid-action' }
+  %p
+    Die Kaution beträgt
+    = number_to_currency @contract.rentable_item.deposit
+    und wurde
+    %span#deposit-paid
+      %u bezahlt
+      %a.set-deposit-state(href='#' data-paid='true' data-update-contract-action="#{contract_path(@contract)}") bezahlt
+    \/
+    %span#deposit-not-paid
+      %a.set-deposit-state(href='#' data-paid='false' data-update-contract-action="#{contract_path(@contract)}") nicht bezahlt.
+      %u nicht bezahlt.
+    %span.glyphicon.glyphicon-refresh.refresh-spinner
+%h2 Abrechnung
+
+.list-group.contract-receivables
+  %span.list-group-item.list-group-item-danger
+    %span.badge= number_to_currency @contract.receivables_sum
+    Forderungen
+  %span.list-group-item.list-group-item-success
+    %span.badge= number_to_currency @contract.payments_sum
+    Zahlungen
+  - user_deposit = @contract.deposit_paid? ? @contract.deposit : 0
+  %span.list-group-item{ class: @contract.deposit_paid? ? 'list-group-item-success' : 'list-group-item-danger' }
+    %span.badge= number_to_currency user_deposit
+    Kaution
+  %span.list-group-item.contract-receivables-sum{ class: @contract.balance >= 0 ? 'list-group-item-success' : 'list-group-item-danger' }
+    %span.badge= number_to_currency @contract.balance
+    %b Rückzahlungsbetrag
+
+.finances-actions
+  = link_to 'Abrechnung bearbeiten', contract_receivables_path(@contract), class: 'btn'
+  = link_to 'Als PDF herunterladen', generate_bill_contract_path(@contract), class: 'btn'
+  = link_to 'Zwischenabrechnung als PDF herunterladen', generate_bill_contract_path(@contract, current: true), class: 'btn'
+  = link_to 'Abrechnung an Mieter schicken', deliver_bill_contract_path(@contract, format: 'json'), class: 'btn deliver-bill', method: :post, remote: true
+  = link_to 'Zwischenabrechnung an Mieter schicken', deliver_bill_contract_path(@contract, current: true, format: 'json'), class: 'btn deliver-bill', method: :post, remote: true

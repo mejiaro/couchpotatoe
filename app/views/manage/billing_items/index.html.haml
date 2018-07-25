@@ -1,0 +1,25 @@
+- model_class = BillingItem
+%h1 Artikel
+%table.table.table-striped
+  %thead
+    %tr
+      %th ID
+      %th= model_class.human_attribute_name(:name)
+      %th Forderungsbetrag
+      %th Buchungskonto
+      %th Modus
+      %th
+  %tbody
+    - @billing_items.each do |billing_item|
+      %tr
+        %td= billing_item.id
+        %td= billing_item.name
+        %td= number_to_currency billing_item.price
+        %td= billing_item.billing_account
+        %td= { contract_monthly: 'Optionale monatliche Forderungen', contract_end: 'Forderung bei Abrechnung', optional: 'Optionale Forderung' }[billing_item.mode]
+        %td
+          = link_to 'Bearbeiten', edit_billing_item_path(billing_item)
+          &middot;
+          = link_to 'Löschen', billing_item_path(billing_item), :method => :delete, :data => { :confirm => 'Sind Sie sicher?' }
+
+= link_to 'Neuer Artikel', new_billing_item_path, :class => 'btn btn-primary'

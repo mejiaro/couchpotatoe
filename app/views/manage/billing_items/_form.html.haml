@@ -1,0 +1,25 @@
+= form_for @billing_item, html: { class: "form form-horizontal billing_item" } do |f|
+  .form-group
+    = f.label :name, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :name, class: 'form-control', required: true
+    = f.error_span(:name)
+  .form-group
+    = f.label :price, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :price, class: 'form-control', required: true
+    = f.error_span(:price)
+  .form-group
+    = f.label :billing_account, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :billing_account, class: 'form-control', required: true
+    = f.error_span(:billing_account)
+  .form-group
+    = f.label :mode, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.select :mode, [['Optionale monatliche Forderungen', 0], ['Optionale Forderung', 1], ['Forderung bei Abrechnung', 2]], class: 'form-control', required: true
+    = f.error_span(:mode)
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = f.submit nil,class: 'btn btn-primary'
+      = link_to t('.cancel', :default => t("helpers.links.cancel")), billing_items_path, :class => 'btn btn-default'

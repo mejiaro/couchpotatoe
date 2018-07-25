@@ -1,0 +1,8 @@
+- provide(:container_css_class, current_account && 'related-account')
+
+- if @rentable_item
+  %h3.well
+    Bei
+    %span.interview-availability grünen Terminen
+    handelt es sich um noch zu vergebende Besichtigungstermine.
+#calendar{ "data-rentable_item_id" =>  @rentable_item && @rentable_item.id }

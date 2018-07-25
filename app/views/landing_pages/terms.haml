@@ -1,0 +1,5 @@
+- provide(:container_css_class, 'related-account')
+
+.terms(style='padding: 20px;')
+  %h1(style='text-align: center;')= @terms.title
+  = PandocRuby.new(@terms.body).to_html(:N).html_safe

@@ -1,0 +1,41 @@
+%p
+  Bitte hier angeben, welche Wohnungen/Häuser du anmietest bzw. überlegst anzumieten für deine WG.
+  Natürlich kannst du auch Objekte angeben, deren Eigentümer du bist.
+%tabset
+  %tab(ng-repeat="rentableContainer in rentableContainers" heading="{{ rentableContainer.name }}" active='rentableContainer.active')
+    %form{:role => "form"}
+      .form-group
+        %label{:for => "name"} Name
+        %input#name.form-control(ng-model='rentableContainer.name' type='text')
+      .form-group
+        %label{:for => "postal_code"} PLZ
+        %input#postal_code.form-control(ng-model='rentableContainer.postal_code')
+      .form-group
+        %label{:for => "address"} Straße
+        %input#address.form-control(ng-model='rentableContainer.address')
+
+      .form-group
+        %label{:for => "running_costs"} Miete oder monatlich zu zahlende Rate
+        .input-group
+          %span.input-group-addon €
+          %input#running_costs.form-control(type='number' step='0.01' ng-model='rentableContainer.running_costs')
+
+      -#.form-group
+      -#  %label{:for => "floor"} Etage (optional)
+      -#  %select.form-control
+      -#    %option Souterrain
+      -#    %option Erdgeschoss
+      -#    %option 1. Stock
+      -#    %option 2. Stock
+      -#    %option 3. Stock
+      -#    %option 4. Stock
+      -#    %option 5. Stock
+      -#    %option 6. Stock
+      -#    %option 7. Stock
+      -#.form-group
+      -#  %label{:for => "room_count"} Zimmeranzahl (Zimmer, welche untervermietet werden können oder sind.)
+      -#  %input#room_count.form-control(type='number'  ng-model='rentableContainer.room_count' ng-change='generateBlankRooms(rentableContainer)')
+
+      %button.btn.btn-danger(ng-click="destroyContainer($index)") Löschen
+  %tab(select="createNewContainer()" heading="Weitere hinzufügen")
+

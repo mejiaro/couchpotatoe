@@ -1,0 +1,6 @@
+%ul.images
+  - if item.images.any?
+    - item.images.rank(:presentation_order).each do |image|
+      %li.image-list-item{ 'data-id' => image.id, 'data-rentable_item_id' => item.id }
+        = image_tag image.image.url(:mini), class: 'mini', 'data-medium' => image.image.url(:medium)
+        = link_to 'Löschen', destroy_image_rentable_item_path(item.id, image_id: image.id), method: :delete, 'data-confirm' => 'Wirklich?', 'data-remote' => true,  class: 'destroy'

@@ -1,0 +1,19 @@
+= form_for @request, html: { class: "form form-horizontal request" } do |f|
+  .form-group
+    = f.label :start_date, class: 'control-label'
+    .controls
+      = f.text_field :start_date, class: 'form-control', required: true
+  .form-group
+    = f.label :end_date, class: 'control-label'
+    .controls
+      = f.text_field :end_date, class: 'form-control', required: true
+  .form-group
+    = f.label :message, class: 'control-label'
+    .controls
+      = f.text_field :message, class: 'form-control', required: false
+  .form-group
+    = f.label :visit, class: 'control-label'
+    .controls
+      = f.collection_select :visit, [[true, 'Ja (Video-Besichtigung)'], [false, 'Nein']], :first, :last, {}, class: 'form-control', required: true
+  = f.submit nil,class: 'btn btn-primary'
+  = link_to t('.cancel', :default => t("helpers.links.cancel")), requests_path, :class => 'btn btn-default'

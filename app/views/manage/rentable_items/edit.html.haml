@@ -1,0 +1,116 @@
+
+.rentable-item(data-id="#{@rentable_item.id}")
+  %ul.nav.nav-tabs.nav-justified(role="tablist")
+    %li
+      %a(href="#images_#{@rentable_item.id}" role='tab' data-toggle='tab')
+        %span.glyphicon.glyphicon-picture
+    %li
+      %a(href="#location_#{@rentable_item.id}" role='tab' data-toggle='tab')
+        %span.glyphicon.glyphicon-globe
+    %li
+      %a(href="#details_#{@rentable_item.id}" role='tab' data-toggle='tab')
+        %span.glyphicon.glyphicon-ok
+    %li.active
+      %a(href="#information_#{@rentable_item.id}" role='tab' data-toggle='tab')
+        %span.glyphicon.glyphicon-pencil
+    %li
+      %a(href="#properties_#{@rentable_item.id}" role='tab' data-toggle='tab')
+        %span.glyphicon.glyphicon-home
+
+
+  .tab-content
+
+    .tab-pane.images(id="images_#{@rentable_item.id}")
+      %input.btn.fileupload(type="file" name="files[]" data-url="#{ images_rentable_item_path(@rentable_item) }" multiple)
+      %span.glyphicon.glyphicon-refresh.refresh-spinner
+      = render 'images', item: @rentable_item
+
+    .tab-pane(id="location_#{@rentable_item.id}")
+      = form_for @rentable_item, remote: true do |f|
+
+        .form-group
+          = f.label :container_item_id, 'Übergeordnete Gruppe'
+          = f.select :container_item_id, current_account.container_items.map { |ci| [ci.name, ci.id] }, { include_blank: true, selected: @rentable_item.container_item_id}, class: 'form-control'
+
+        .form-group
+          = f.label :address, 'Straße + Hausnummer'
+          = f.text_field :address, class: 'form-control'
+        .row
+          .col-lg-5
+            .form-group
+              = f.label :zip, 'PLZ'
+              = f.text_field :zip, class: 'form-control'
+          .col-lg-7
+            .form-group
+              = f.label :city, 'Stadt'
+              = f.text_field :city, class: 'form-control'
+        .form-group
+          = f.label :country, 'Land'
+          = f.text_field :country, class: 'form-control'
+
+        = f.submit 'Speichern', class: 'btn submit'
+
+    .tab-pane(id="details_#{@rentable_item.id}")
+      = form_for @rentable_item, remote: true do |f|
+
+        = f.hidden_field :item_type_attributes, value: @rentable_item.item_type_attributes.map(&:value).join(','), class: 'itattrs'
+        = f.submit 'Speichern', class: 'btn'
+
+
+
+    .tab-pane.information.active(id="information_#{@rentable_item.id}")
+      = form_for @rentable_item, remote: true do |f|
+        -#.form-group
+        -#  = f.select :type, ['Wohnung', 'Zimmer', 'Haus'], {}, class: 'form-control'
+        .form-group
+          = f.label :number, 'Interne Bezeichnung'
+          = f.text_field :number, class: 'form-control'
+        .form-group
+          = f.label :ad_name, 'Anzeigename'
+          = f.text_field :ad_name, class: 'form-control'
+        .form-group
+          = f.label :description, 'Beschreibung'
+          = f.hidden_field :description, id: "description-#{@rentable_item.id}"
+          %trix-editor{input: "description-#{@rentable_item.id}"}
+        .form-group
+          = f.label :blocked, 'Im Verkauf?'
+          = f.check_box :blocked, { checked: !@rentable_item.blocked },  '0', '1'
+
+        .form-group
+          = f.label :earliest_available, 'Verfügbar ab'
+          = f.text_field :earliest_available, class: 'form-control', placeholder: @rentable_item.blocked? ? 'Inserat muss im Verkauf sein' : Date.today
+        = f.submit 'Speichern', class: 'btn submit'
+        - unless @rentable_item.new_record?
+          = link_to 'Löschen', rentable_item_path(@rentable_item.id), method: :delete, data: { remote: 'true', confirm: 'Wirklich löschen?' }, class: 'btn destroy'
+
+
+
+    .tab-pane(id="properties_#{@rentable_item.id}")
+      = form_for @rentable_item, remote: true do |f|
+
+        .form-group
+          = f.label :price, 'Miete'
+          .input-group
+            = f.number_field :price, class: 'form-control'
+            .input-group-addon EUR
+
+        .form-group
+          = f.label :deposit, 'Kaution'
+          .input-group
+            = f.number_field :deposit, class: 'form-control'
+            .input-group-addon EUR
+        .row
+          .col-lg-6
+            .form-group
+              = f.label :size, 'Größe'
+              .input-group
+                = f.number_field :size, class: 'form-control'
+                .input-group-addon m&sup2;
+          .col-lg-6
+
+            .form-group
+              = f.label :room_count, 'Zimmeranzahl'
+
+              = f.number_field :room_count, class: 'form-control'
+
+        = f.submit 'Speichern', class: 'btn submit'

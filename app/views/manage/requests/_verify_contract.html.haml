@@ -1,0 +1,11 @@
+- if object.contract.signed_contract.present?
+  = link_to 'autoSIGN', '#', class: 'autosign-btn', "data-contract-id" => object.contract.id
+  %span &middot;
+  - if object.contract.contract_verified
+    = link_to contract_path(object.contract, contract: { contract_verified: false }), method: :put do
+      Nicht unterschrieben?
+  - else
+    = link_to contract_path(object.contract, contract: { contract_verified: true }), method: :put do
+      Unterschrift bestätigen
+- else
+  Warten auf Unterschrift...

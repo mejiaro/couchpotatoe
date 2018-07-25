@@ -1,0 +1,87 @@
+- content_for(:before_container) do
+  #couchpotatoe.carousel.slide{"data-ride" => "carousel"}
+    / Indicators
+    %ol.carousel-indicators
+      %li.active{"data-slide-to" => "0", "data-target" => "#couchpotatoe"}
+      %li{"data-slide-to" => "1", "data-target" => "#couchpotatoe"}
+      %li{"data-slide-to" => "2", "data-target" => "#couchpotatoe"}
+    .carousel-inner
+      - @items.each.with_index do |item, i|
+        %div{:class => "item #{'active' if i == 0}"}
+          %img{:alt => "Sofort wohnen in #{item.images.first.title}", :src => item.images.first.image.url(:large)}/
+          .container
+            .carousel-caption.hidden-xs.hidden-sm
+              .feature-actions
+                Stadt:
+                %strong= item.city
+
+                &middot;
+                %strong= number_to_currency item.price
+                Miete
+
+                &middot;
+
+                %strong= item.size
+                m&sup2;
+
+                &middot;
+
+                Von
+                %strong= I18n.l item.earliest_available
+
+                %br
+
+                %a.btn.btn-success{:href => rentable_items_path(item: item)} Details
+
+              .tagline
+                %h2= item.ad_name
+
+    %a.left.carousel-control{"data-slide" => "prev", :href => "#couchpotatoe", :role => "button"}
+      %span.glyphicon.glyphicon-chevron-left
+    %a.right.carousel-control{"data-slide" => "next", :href => "#couchpotatoe", :role => "button"}
+      %span.glyphicon.glyphicon-chevron-right
+  .container.search
+    = form_for :search, url: rentable_items_path, method: :get, html: { role: 'form', class: 'form-inline' } do |form|
+      .form-group
+        .input-group
+          .input-group-addon In
+          %select(class='form-control' id='city' name='search[city]')
+            - @cities.each do |city|
+              %option(value="#{city}")= city
+
+        .input-group
+          .input-group-addon Ab
+          = form.select :start_date, @start_dates.map { |date| [I18n.l(date), date] }, {}, class: 'form-control', label: 'Bis'
+        %button.btn{:type => "submit"} Suchen
+
+  / /.carousel
+.container.marketing
+  .row
+    .col-lg-4
+      %span.glyphicon.glyphicon-check{:style => "font-size: 5.2em;"}
+      %h2 Seriös
+      %p
+        Alle Zimmer/Wohnungen, die wir anbieten, sind von uns eingehend geprüft worden. Wenn Sie eine Zusage über couchpotatoe.com erhalten,
+        können Sie sich sicher sein, einen Wohnplatz in Ihrer neuen Stadt gefunden zu haben.
+    .col-lg-4
+      %span.glyphicon.glyphicon-cloud{:style => "font-size: 5.2em;"}
+      %h2 Einfach
+      %p Sofern Sie keine Besichtigung wünschen, können alle Zimmer bis hin zum Vertragsabschluss online gebucht werden. Das heißt, Sie können sich bequem von Ihrem Ursprungsort aus eine Bleibe in der Stadt Ihrer Wahl sichern.
+    .col-lg-4
+      %span.glyphicon.glyphicon-forward{:style => "font-size: 5.2em;"}
+      %h2 Schnell
+      %p Unser Buchungssystem vereint etablierte Verfahren mit neuen Technologien und ist somit schnell und zuverlässig.
+
+
+  .row
+    .col-lg-12
+      .call-to-action
+        %h2
+          = image_tag '/logo.png'
+          manage
+        %h3
+          Erstellen Sie noch heute Ihr erstes Inserat auf couchpotatoe.com.
+
+        %br
+        = link_to 'Los geht\'s!', new_account_path, class: 'btn'
+        %p Die ersten 5 Inserate sind kostenlos.

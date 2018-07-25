@@ -1,0 +1,6 @@
+= link_to request_path(object, request: { accepted: true }), method: :put do
+  Zusage
+  %span.glyphicon.glyphicon-ok
+= link_to request_path(object, request: { denied: true }), method: :put do
+  Absage
+  %span.glyphicon.glyphicon-remove

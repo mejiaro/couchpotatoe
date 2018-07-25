@@ -1,0 +1,112 @@
+@import "twitter/bootstrap/bootstrap";
+
+.sw-pagination {
+  ul {
+    font-size: 1.5em;
+  }
+
+  li a {
+    background-color: @bright-color !important;
+    color: @dark-color !important;
+  }
+
+  li.active span {
+    background-color: @dark-color !important;
+    color: @bright-color !important;
+  }
+
+  text-align: center !important;
+}
+
+.ui-helper-hidden-accessible { display:none; }
+
+input[type='file'] {
+  height: auto !important;
+}
+
+footer {
+  text-align: center;
+}
+
+a {
+  color: @dark-color;
+}
+
+.contextual-account-color a {
+  color: @dark-color !important;
+}
+
+.nav-tabs a {
+  border: none !important;
+}
+
+.nabar-wrapper {
+  background-color: @bright-color;
+}
+
+.collapse.in .pull-right {
+  margin-top: -200px;
+}
+
+.modal-open {
+  overflow: auto !important;
+  padding-right: 0 !important;
+}
+.navbar {
+  border: none !important;
+  background-color: @bright-color;
+
+  -moz-box-shadow: 1.5px 1.5px 7px #888;
+  -webkit-box-shadow: 1px 1px 7px #888;
+  box-shadow: 2.5px 2.5px 7px #888;
+
+  li.active > a {
+    background-color: @bright-color !important;
+    font-weight: bold;
+
+  }
+
+  .dropdown-menu > .active > a {
+    background-color: @dark-color !important;
+    color: @bright-color !important;
+  }
+
+  li > ul {
+    background-color: @bright-color;
+  }
+
+  a:hover {
+    background-color: fade(@bright-color, 75%);
+  }
+}
+
+.sofortblau {
+  background: @dark-color;
+  color: @bright-color;
+  font-weight: bold;
+}
+
+.highlight-text {
+  background: @bright-color;
+  color: @dark-color;
+  font-weight: bold;
+}
+
+.featurette {
+  a {
+    color: #777777;
+  }
+  a:hover {
+    background: transparent;
+  }
+  h1.sub {
+    display: inline-block;
+    font-size: 45px;
+  }
+  img {
+    margin-top: -0.49cm;
+  }
+
+}
+
+@grid-float-breakpoint: 1000px;

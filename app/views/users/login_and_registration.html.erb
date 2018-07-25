@@ -1,0 +1,47 @@
+<div class="" id="loginModal">
+<!--     <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3>Have an Account?</h3>
+</div> -->
+<div class="modal-body" id="login_forms">
+  <div class="well">
+    <div class='fblogin'>
+      <%= link_to user_omniauth_authorize_path(:facebook) do %>
+        <%= image_tag('fb_button.png', height: 30) %>
+      <% end %>
+    </div>
+    <ul class="nav nav-tabs login_or_registration">
+      <li class="<%= !@registration_tab && 'active' %>"><a href="#login" data-toggle="tab">Login</a></li>
+      <li class="<%= @registration_tab && 'active' %>"><a style='font-weight: bold;' href="#create" data-toggle="tab">Noch kein couchpotatoe Konto?</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane <%= !@registration_tab ? 'active in' : 'fade' %>" id="login">
+        <%= bootstrap_form_for(:user, url: session_path(:user), html: { role: 'form', style: 'width: 40%; margin-left: auto; margin-right: auto;'  }) do |form| %>
+            <%= form.text_field :email, placeholder: 'internet@neuland.de' %>
+            <%= form.password_field :password, placeholder: 'Keine Ahnung' %>
+
+            <div class="form-group">
+              <div class="controls">
+                <button class="btn btn-inverse">Login</button>
+                <a class="password-reset" href="<%= new_user_password_path %>">Passwort vergessen?</a>
+              </div>
+            </div>
+        <% end %>
+      </div>
+      <div class="tab-pane <%= @registration_tab && 'active in' %>" id="create">
+        <%= bootstrap_form_for @user, html: { id: 'tab', role: 'form', style: 'width: 40%; margin-left: auto; margin-right: auto;' } do |form| %>
+
+          <%= form.text_field :anrede, placeholder: 'Herr/Frau', class: 'form-control' %>
+          <%= form.text_field :firstname, class: 'form-control' %>
+          <%= form.text_field :lastname, class: 'form-control' %>
+          <%= form.email_field :email, placeholder: 'internet@neuland.de', class: 'form-control' %>
+          <%= form.password_field :password, placeholder: 'Keine Ahnung', class: 'form-control' %>
+          <%= form.password_field :password_confirmation, placeholder: 'Immernoch keine Ahnung', class: 'form-control' %>
+          <button class="btn btn-inverse">Registrieren</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

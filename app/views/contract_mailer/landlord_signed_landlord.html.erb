@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+<h1>Sie haben unterschrieben</h1>
+
+<p>Sehr geehrte Damen und Herren,</p>
+
+<p>
+  Sie haben den Vertrag für das Inserat <%= @contract.rentable_item.number %> unterschrieben.
+</p>
+
+<p><%= link_to('Hier können Sie den Vertrag einsehen.', 'http://' + @contract.account.domain + '.couchpotatoe.com' + bookings_rentable_items_path(contract_id: @contract.id)) %></p>
+
+<p>Den unterschrieben Vertrag können Sie dem Anhang entnehmen.</p>
+
+<p>Mit freundlichen Grüßen</p>
+<p>Ihr couchpotatoe Team</p>
+</body>
+</html>

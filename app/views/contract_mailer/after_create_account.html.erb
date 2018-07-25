@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+<h1>Neue Vertragserstellung für <%= @contract.rentable_item.number %></h1>
+
+<p>Sehr geehrte Damen und Herren,</p>
+
+<p>
+  <%= @contract.user.fullname %> hat einen neuen Vertrag für das Inserat <%= @contract.rentable_item.number %> mit der Adresse <%= @contract.rentable_item.full_address %> erstellt.
+</p>
+
+<p>Sie können diese Anfrage in Ihrer <%= link_to 'Anfragenübersicht', "http://#{@contract.account.domain}.couchpotatoe.com/requests" %> bearbeiten.</p>
+
+<p>Das erstellte Vertragsdokument können Sie dem Anhang entnehmen.</p>
+
+<p>Mit freundlichen Grüßen</p>
+<p>Ihr couchpotatoe Team</p>
+
+
+</body>
+</html>

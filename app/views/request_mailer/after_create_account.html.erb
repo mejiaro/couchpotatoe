@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+<h1>Neue Anfrage für <%= @request.rentable_item.number %></h1>
+
+<p>Sehr geehrte Damen und Herren,</p>
+
+<p>
+  Es liegt eine neue Anfrage für das Inserat <%= @request.rentable_item.number %> mit der Adresse <%= @request.rentable_item.full_address %>
+  in Ihrem Verwaltungsbereich vor.
+</p>
+
+<ul>
+  <li>Name: <%= @request.user.fullname %></li>
+  <li>Zeitraum: <%= I18n.l @request.contract.start_date %> - <%= I18n.l @request.contract.end_date %></li>
+  <% if @request.user.phone.present? %>
+    <li>Alter: <%= @request.user.age %></li>
+  <% end %>
+  <% if @request.user.phone.present? %>
+    <li>Telefonnummer: <%= @request.user.phone %></li>
+  <% end %>
+</ul>
+
+
+<p>Sie können diese Anfrage in Ihrer <%= link_to 'Anfragenübersicht', "http://#{@request.account.domain}.couchpotatoe.com/requests" %> bearbeiten.</p>
+
+<p>Mit freundlichen Grüßen</p>
+<p>Ihr couchpotatoe Team</p>
+
+
+</body>
+</html>

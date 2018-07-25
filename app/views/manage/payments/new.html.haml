@@ -1,0 +1,12 @@
+#payment-form
+  .page-header
+    %h1
+      Zahlung für
+      = @contract.user.fullname
+      &middot;
+      = @contract.rentable_item.number
+      - if @receivable
+        &middot;
+        = @receivable.payment_reference
+
+  = render :partial => "form"

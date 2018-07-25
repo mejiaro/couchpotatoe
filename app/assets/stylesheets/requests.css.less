@@ -1,0 +1,148 @@
+// Place all the styles related to the requests controller here.
+// They will automatically be included in application.css.
+// You can use Less here: http://lesscss.org/
+.progress-actions {
+  .btn {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+#requests-renter {
+  .billing_item__hidden {
+    
+display: none;
+  
+  }
+  a:hover {
+    background-color: @dark-color;
+    color: @bright-color;
+  }
+
+  .nav-tabs li.active a {
+    background-color: @dark-color;
+    color: @bright-color;
+  }
+
+  .tab-pane.active {
+    margin: 0 !important;
+    padding: 20px;
+    background-color: @dark-color;
+    color: @bright-color;
+  }
+}
+
+
+
+.request-action-tabs .request-actions__flex-wrapper {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  
+  .request-actions__flex-item {
+    align-self: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-content: center;
+    
+    * {
+      margin-bottom: 5px;
+    }
+    
+    .highlight-text {
+      padding: 30px;
+    }
+    
+    form.button_to {
+      display: flex;
+      justify-content: center;
+      input[type='submit'] {
+        align-self: center;
+      }
+    }
+  }
+}
+
+.autosign-btn {
+  width: 100%;
+}
+
+.progress {
+  float: left;
+  width: 100%;
+  background:  @dark-color;
+  color: @bright-color;
+  height: 35px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  span {
+    line-height: 35px;
+  }
+}
+
+.delete-billing-item:hover {
+  text-decoration: line-through;
+}
+
+.noborder {
+  border: none !important;
+}
+
+.request-actions {
+  float: right;
+}
+
+.progress-navigation {
+  margin-top: 5px;
+  width: 100%;
+  display: inline-block;
+}
+
+.progress-row {
+  height: 35px !important;
+}
+
+.backend {
+  span.request-popover {
+    cursor: pointer;
+  }
+
+  #requests {
+    margin-top: 20px;
+  }
+  .request {
+
+    .panel-heading {
+      margin: 0;
+      padding: 5px;
+      text-align: center;
+
+      .panel-title {
+        font-size: 2em;
+
+        a { color: rgba(125, 145, 161, 0.60) !important; }
+      }
+
+      background-color: @bright-color;
+    }
+    background-color: @dark-color;
+    font-size: 1.25em;
+    color: @bright-color !important;
+    a, span {
+      color: @bright-color !important;
+      font-weight: bold;
+      font-size: 1.25em;
+    }
+
+    .progress {
+      -moz-box-shadow: 1px 1px 5px #888;
+      -webkit-box-shadow: 1px 1px 5px #888;
+      box-shadow: 1px 1px 5px #888;
+    }
+  }
+}
+
+#requestUserDetail {
+  padding-top: 7.5px;
+}
