@@ -97,7 +97,6 @@ gem 'odf-report'
 
 group :development do
   gem 'mysql2', ['< 0.5', '>= 0.3.13']
-  gem 'heroku'
   gem 'byebug'
 
   gem "iconv"
@@ -111,7 +110,10 @@ end
 
 group :production do
   gem 'pg', '~> 0.15'
+  gem 'rails_12factor'
 end
 
 gem "bugsnag"
 gem 'sinatra', :require => nil
+
+ruby '2.0.0'
