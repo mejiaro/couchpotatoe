@@ -78,6 +78,4 @@ test:
 #
 production:
   <<: *default
-  database: couchpotatoe_production
-  username: couchpotatoe_production_database_username
   url: <%= ENV['DATABASE_URL'] %>
