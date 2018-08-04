@@ -116,4 +116,4 @@ end
 gem "bugsnag"
 gem 'sinatra', :require => nil
 
-ruby '2.0.0'
+ruby '2.5.1'
