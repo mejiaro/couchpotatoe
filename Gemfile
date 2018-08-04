@@ -5,7 +5,7 @@ gem 'rails', '4.2.0'
 
 gem 'whenever', :require => false
 
-gem 'mysql2', '~> 0.3.18'
+gem 'mysql2'#, '~> 0.3.18'
 gem 'devise'
 gem 'devise-encryptable'
 gem 'devise-i18n'
@@ -29,7 +29,7 @@ gem 'geocoder'
 #gem 'sass-rails', '~> 4.0.3'
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'twitter-bootstrap-rails'#, :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'bootstrap_form'
 gem 'haml-rails'
 
