@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.2.0'
+gem 'rails', '~> 4.2.10'
 
 gem 'whenever', :require => false
 
-gem 'mysql2'#, '~> 0.3.18'
+gem 'mysql2', ['< 0.5', '>= 0.3.13']
 gem 'devise'
 gem 'devise-encryptable'
 gem 'devise-i18n'
@@ -15,7 +15,7 @@ gem 'ranked-model'
 
 # third-party integration gems
 gem 'omniauth-facebook'
-#gem 'paypal-express'
+gem 'paypal-express'
 
 gem 'rails-i18n', '~> 4.0.0'
 
