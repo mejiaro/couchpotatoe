@@ -15,7 +15,7 @@ gem 'ranked-model'
 
 # third-party integration gems
 gem 'omniauth-facebook'
-gem 'paypal-express'
+#gem 'paypal-express'
 
 gem 'rails-i18n', '~> 4.0.0'
 
