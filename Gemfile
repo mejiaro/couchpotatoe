@@ -5,7 +5,6 @@ gem 'rails', '~> 4.2.10'
 
 gem 'whenever', :require => false
 
-gem 'mysql2', ['< 0.5', '>= 0.3.13']
 gem 'devise'
 gem 'devise-encryptable'
 gem 'devise-i18n'
@@ -97,6 +96,7 @@ gem 'sendgrid-ruby'
 gem 'odf-report'
 
 group :development do
+  gem 'mysql2', ['< 0.5', '>= 0.3.13']
   gem 'heroku'
   gem 'byebug'
 
@@ -107,6 +107,10 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
   gem "capistrano-db-tasks", require: false
+end
+
+group :production do
+  gem 'pg'
 end
 
 gem "bugsnag"
