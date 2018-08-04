@@ -257,7 +257,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.0.0)
+    pg (0.21.0)
     prawn (1.2.1)
       pdf-core (~> 0.2.5)
       ttfunk (~> 1.2.0)
@@ -443,7 +443,7 @@ DEPENDENCIES
   pandoc-ruby
   paperclip
   paypal-express
-  pg
+  pg (~> 0.15)
   prawn (~> 1.2.1)
   prawn-table
   prawn-templates
