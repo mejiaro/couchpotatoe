@@ -5,7 +5,7 @@ end
 
 if Rails.env.production?
   ActionMailer::Base.smtp_settings = {
-      :user_name => Rails.application.secrets.sendgrid_api_user
+      :user_name => Rails.application.secrets.sendgrid_api_user,
       :password => Rails.application.secrets.sendgrid_api_password,
       :domain => Rails.application.secrets.email_domain,
       :address => 'smtp.sendgrid.net',

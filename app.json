@@ -2,5 +2,11 @@
   "name": "Couchpotatoe",
   "description": "Cool app",
   "repository": "https://github.com/icetiger-tec/couchpotatoe",
-  "keywords": ["ruby", "rails", "couchpotatoe", "Icetiger"]
+  "keywords": ["ruby", "rails", "couchpotatoe", "Icetiger"],
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate",
+  }
 }

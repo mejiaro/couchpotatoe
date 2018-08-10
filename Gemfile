@@ -1,11 +1,10 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.2.0'
+gem 'rails', '~> 4.2.10'
 
 gem 'whenever', :require => false
 
-gem 'mysql2'#, '~> 0.3.18'
 gem 'devise'
 gem 'devise-encryptable'
 gem 'devise-i18n'
@@ -97,7 +96,7 @@ gem 'sendgrid-ruby'
 gem 'odf-report'
 
 group :development do
-  gem 'heroku'
+  gem 'mysql2', ['< 0.5', '>= 0.3.13']
   gem 'byebug'
 
   gem "iconv"
@@ -109,5 +108,12 @@ group :development do
   gem "capistrano-db-tasks", require: false
 end
 
+group :production do
+  gem 'pg', '~> 0.15'
+  gem 'rails_12factor'
+end
+
 gem "bugsnag"
 gem 'sinatra', :require => nil
+
+ruby '2.5.1'
