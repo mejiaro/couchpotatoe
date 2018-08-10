@@ -5,6 +5,6 @@
   "keywords": ["ruby", "rails", "couchpotatoe", "Icetiger"],
     "addons": [
       "heroku-postgresql"
-    }
+    ]
   ],
 }
