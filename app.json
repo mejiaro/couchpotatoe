@@ -5,5 +5,8 @@
   "keywords": ["ruby", "rails", "couchpotatoe", "Icetiger"],
   "addons": [
     "heroku-postgresql"
-  ]
+  ],
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate",
+  }
 }
